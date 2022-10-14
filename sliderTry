@@ -1,0 +1,20 @@
+#importing required libraries
+import streamlit as st
+from datetime import time
+from datetime import datetime
+#adding a simple slider
+age = st.slider('Please enter your age', 0, 130, 25)
+#displaying the selected value
+st.write("You are ",age," years old.")
+#adding a range slider
+values = st.slider('Please select a range of values',0.0, 100.0, (40.0, 80.0))
+#displaying the selected values
+st.write('Values selected: ', values)
+#adding a time slider
+appointment = st.slider("Choose a feasible time for your appointment: ",value=(time(10, 00), time(11, 00)))
+#displaying the selected value
+st.write("You are scheduled for:", appointment)
+#adding a datetime slider
+interview_time = st.slider("Enter your interview date and time: ",value=datetime(2021, 10, 23, 10, 30),format="MM/DD/YY - hh:mm")
+#displaying the selected value
+st.write("Interview time:", interview_time)
