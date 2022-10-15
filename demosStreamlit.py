@@ -2,7 +2,7 @@ import streamlit as st
 # import matplotlib.colors as mcolors
 import numpy as np
 import pandas as pd
-import graphviz
+import graphviz as graphviz
 # import matplotlib.pyplot as plt
 df = pd.DataFrame(
    np.random.randn(50, 20),
