@@ -48,7 +48,7 @@ chardet #file:///opt/concourse/worker/volumes/live/7e1102c4-8702-40f2-63d6-f260c
 charset-normalizer #file:///tmp/build/80754af9/charset-normalizer_1630003229654/work
 click #file:///opt/concourse/worker/volumes/live/17ca243b-fc66-462b-4bc1-f11ad524e336/volume/click_1646056621177/work
 cloudpickle #file:///tmp/build/80754af9/cloudpickle_1632508026186/work
-clyent==1.2.2
+#clyent==1.2.2
 colorama #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_b8ecd5af-5e60-48b8-80ac-92164ecb9b9bxkf0tkfp/croots/recipe/colorama_1657009097162/work
 colorcet #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_8a83eeb2-7dbf-4e61-829c-ba42fc3fd6f523ifr0ew/croots/recipe/colorcet_1651851028480/work
 commonmark==0.9.1
