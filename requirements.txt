@@ -1,7 +1,6 @@
 numpy
 pandas
 graphviz
-time
 matplotlib
 # altair==4.2.0
 # attrs==22.1.0
