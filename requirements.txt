@@ -188,7 +188,7 @@ munkres==1.1.4
 mypy-extensions==0.4.3
 myst-nb==0.13.2
 myst-parser==0.15.2
-navigator-updater==0.3.0
+#navigator-updater==0.3.0
 nbclassic #file:///opt/conda/conda-bld/nbclassic_1644943264176/work
 nbclient #file:///opt/concourse/worker/volumes/live/fcea0efc-2a08-48fd-5c55-85ef78e0ea28/volume/nbclient_1650308406463/work
 nbconvert #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_croot-mv2swkk7/nbconvert_1649751922903/work
