@@ -16,7 +16,7 @@ df = pd.DataFrame(
    columns=('col %d' % i for i in range(5)))
 st.table(df)
 
-st.metric(label="Temperature", value="70 °F", delta="1.2 °F")
+st.metric(label="Temperature", value="70 °F", delta="-1.2 °F")
 
 
 st.graphviz_chart('''
@@ -26,7 +26,9 @@ st.graphviz_chart('''
         1->4
         2->5
         3->5
-        4->5
+        4->6
+
+        6->5
     }
 ''')
 st.title('This is a title')
