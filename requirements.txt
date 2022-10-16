@@ -11,7 +11,7 @@ appdirs==1.4.4
 applaunchservices #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_96v71vcny2/croots/recipe/applaunchservices_1661854626389/work
 appnope #file:///opt/concourse/worker/volumes/live/6ca6f098-d773-4461-5c91-a24a17435bda/volume/appnope_1606859448531/work
 appscript #file:///opt/concourse/worker/volumes/live/00049ed6-6263-4a6e-72b9-9d990f6e2f07/volume/appscript_1611427000595/work
-arcade==2.6.13
+arcade#==2.6.13
 argon2-cffi #file:///opt/conda/conda-bld/argon2-cffi_1645000214183/work
 argon2-cffi-bindings #file:///opt/concourse/worker/volumes/live/42cf1b28-e71f-45ed-47b2-50f828088636/volume/argon2-cffi-bindings_1644569709119/work
 arrow #file:///opt/conda/conda-bld/arrow_1649166651673/work
@@ -219,7 +219,7 @@ patsy==0.5.2
 pep8==1.7.1
 pexpect #file:///tmp/build/80754af9/pexpect_1605563209008/work
 pickleshare #file:///tmp/build/80754af9/pickleshare_1606932040724/work
-Pillow==9.2.0
+Pillow # may need to be == 9.0.1 ##==9.2.0
 pkginfo #file:///tmp/build/80754af9/pkginfo_1643162084911/work
 platformdirs #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_7fs8_2xgrm/croots/recipe/platformdirs_1662711383474/work
 plotly #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_b7601a7c-071f-4424-ad46-f00f32c1766ccwgx0ywh/croots/recipe/plotly_1658160061089/work
