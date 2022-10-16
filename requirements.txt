@@ -301,7 +301,7 @@ Rtree #file:///opt/concourse/worker/volumes/live/18283f9b-719e-45b1-7f3a-937f493
 s3transfer #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_07692347-3b2f-44eb-9a12-5e0d23d67c1b9oqlb6o4/croots/recipe/s3transfer_1654524216219/work
 scikit-image #file:///opt/concourse/worker/volumes/live/584d0455-dcb7-4cf1-5977-c077944180ee/volume/scikit-image_1648214186784/work
 scikit-learn #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_45h_p7d6a0/croot/scikit-learn_1665482007320/work
-scikit-learn-intelex==2021.20220215.132722
+scikit-learn-intelex==2021.7.0
 scipy #file:///opt/concourse/worker/volumes/live/9284487f-601d-4bc3-5556-535c4949d341/volume/scipy_1641557769615/work
 Scrapy #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_76af7rt3wk/croots/recipe/scrapy_1659598702735/work
 seaborn #file:///tmp/build/80754af9/seaborn_1629307859561/work
