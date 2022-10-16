@@ -52,14 +52,14 @@ cloudpickle #file:///tmp/build/80754af9/cloudpickle_1632508026186/work
 colorama #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_b8ecd5af-5e60-48b8-80ac-92164ecb9b9bxkf0tkfp/croots/recipe/colorama_1657009097162/work
 colorcet #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_8a83eeb2-7dbf-4e61-829c-ba42fc3fd6f523ifr0ew/croots/recipe/colorcet_1651851028480/work
 commonmark==0.9.1
-conda==22.9.0
-conda-build==3.22.0
-conda-content-trust #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_0afea0f9-bbf5-446c-8d60-8151cc05b029p0nco1nn/croots/recipe/conda-content-trust_1658126375910/work
-conda-pack #file:///tmp/build/80754af9/conda-pack_1611163042455/work
-conda-package-handling #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_4aholt4czv/croots/recipe/conda-package-handling_1663598478352/work
-conda-repo-cli==1.0.20
-conda-token #file:///Users/paulyim/miniconda3/envs/c3i/conda-bld/conda-token_1662660369760/work
-conda-verify==3.4.2
+#conda==22.9.0
+#conda-build==3.22.0
+#conda-content-trust #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_0afea0f9-bbf5-446c-8d60-8151cc05b029p0nco1nn/croots/recipe/conda-content-trust_1658126375910/work
+#conda-pack #file:///tmp/build/80754af9/conda-pack_1611163042455/work
+#conda-package-handling #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_4aholt4czv/croots/recipe/conda-package-handling_1663598478352/work
+#conda-repo-cli==1.0.20
+#conda-token #file:///Users/paulyim/miniconda3/envs/c3i/conda-bld/conda-token_1662660369760/work
+#conda-verify==3.4.2
 constantly==15.1.0
 cookiecutter #file:///opt/conda/conda-bld/cookiecutter_1649151442564/work
 cryptography #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_b470f7cb-c8f1-42c9-b84f-23789ea77e7c9difcqh4/croots/recipe/cryptography_1652101134392/work
