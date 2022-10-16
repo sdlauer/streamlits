@@ -67,7 +67,7 @@ cssselect==1.1.0
 cycler #file:///tmp/build/80754af9/cycler_1637851556182/work
 Cython #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_2bxfxrakym/croots/recipe/cython_1663692778284/work
 cytoolz==0.11.0
-daal4py==2021.5.0
+daal4py==2021.5.3
 dask #file:///opt/conda/conda-bld/dask-core_1647268715755/work
 data==0.4
 datashader #file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_543d57cxkz/croots/recipe/datashader_1659349048901/work
