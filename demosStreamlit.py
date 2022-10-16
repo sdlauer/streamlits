@@ -4,19 +4,19 @@ import numpy as np
 import pandas as pd
 import graphviz as graphviz
 # import matplotlib.pyplot as plt
-df = pd.DataFrame(
-   np.random.randn(50, 20),
-   columns=('col %d' % i for i in range(20)))
+# df = pd.DataFrame(
+#    np.random.randn(50, 20),
+#    columns=('col %d' % i for i in range(20)))
+#
+# st.dataframe(df)  # Same as st.write(df)
 
-st.dataframe(df)  # Same as st.write(df)
 
+# df = pd.DataFrame(
+#    np.random.randn(10, 5),
+#    columns=('col %d' % i for i in range(5)))
+# st.table(df)
 
-df = pd.DataFrame(
-   np.random.randn(10, 5),
-   columns=('col %d' % i for i in range(5)))
-st.table(df)
-
-st.metric(label="Temperature", value="70 °F", delta="-1.2 °F")
+# st.metric(label="Temperature", value="70 °F", delta="-1.2 °F")
 
 
 st.graphviz_chart('''
@@ -31,14 +31,14 @@ st.graphviz_chart('''
         6->5
     }
 ''')
-st.title('This is a title')
-st.header('This is a header')
-st.subheader('This is a subheader')
-st.caption('This is a string that explains something above.')
-code = '''def hello():
-    print("Hello, Streamlit!")'''
-st.code(code, language='python')
-st.text('This is some text.')
+# st.title('This is a title')
+# st.header('This is a header')
+# st.subheader('This is a subheader')
+# st.caption('This is a string that explains something above.')
+# code = '''def hello():
+#     print("Hello, Streamlit!")'''
+# st.code(code, language='python')
+# st.text('This is some text.')
 st.latex(r'''
     a + ar + a r^2 + a r^3 + \cdots + a r^{n-1} =
     \sum_{k=0}^{n-1} ar^k =
