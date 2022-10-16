@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from pyvis.network import Network
 import pandas as pd
 import streamlit as st
-
+import streamlit.components.v1 as components
 
 def got_func(physics):
   got_net = Network(height="600px", width="100%", font_color="black",heading='Game of Thrones Graph')
@@ -69,3 +69,40 @@ def karate_func(physics):
   if physics:
     nt.show_buttons(filter_=['physics'])
   nt.show('karate.html')
+
+  #Network(notebook=True)
+st.title('Hello Pyvis')
+# make Network show itself with repr_html
+
+#def net_repr_html(self):
+#  nodes, edges, height, width, options = self.get_network_data()
+#  html = self.template.render(height=height, width=width, nodes=nodes, edges=edges, options=options)
+#  return html
+
+#Network._repr_html_ = net_repr_html
+st.sidebar.title('Choose your favorite Graph')
+option=st.sidebar.selectbox('select graph',('Simple','Karate', 'GOT'))
+physics=st.sidebar.checkbox('add physics interactivity?')
+simple_func(physics)
+
+if option=='Simple':
+  HtmlFile = open("test.html", 'r', encoding='utf-8')
+  source_code = HtmlFile.read()
+  components.html(source_code, height = 900,width=900)
+
+
+got_func(physics)
+
+if option=='GOT':
+  HtmlFile = open("gameofthrones.html", 'r', encoding='utf-8')
+  source_code = HtmlFile.read()
+  components.html(source_code, height = 1200,width=1000)
+
+
+
+karate_func(physics)
+
+if option=='Karate':
+  HtmlFile = open("karate.html", 'r', encoding='utf-8')
+  source_code = HtmlFile.read()
+  components.html(source_code, height = 1200,width=1000)
