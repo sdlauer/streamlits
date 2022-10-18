@@ -2,7 +2,7 @@ aiohttp
 aiosignal
 alabaster
 altair==4.2.0
-amortization==2.1.0
+amortization
 anaconda-client==1.11.0
 anaconda-navigator==2.3.2
 anaconda-project
