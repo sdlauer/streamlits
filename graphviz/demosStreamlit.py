@@ -2,18 +2,18 @@ import streamlit as st
 # import matplotlib.colors as mcolors
 import numpy as np
 import pandas as pd
-hide = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        header {visibility: hidden;}
-        body {overflow: hidden;}
-        div.block-container {padding-top:1rem;}
-        div.block-container {padding-bottom:1rem;}
-        </style>
-        """
-
-st.markdown(hide, unsafe_allow_html=True)
+# hide = """
+#         <style>
+#         #MainMenu {visibility: hidden;}
+#         footer {visibility: hidden;}
+#         header {visibility: hidden;}
+#         body {overflow: hidden;}
+#         div.block-container {padding-top:1rem;}
+#         div.block-container {padding-bottom:1rem;}
+#         </style>
+#         """
+#
+# st.markdown(hide, unsafe_allow_html=True)
 st.graphviz_chart('''
     digraph {
         1 -> 2
