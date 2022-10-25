@@ -8,9 +8,9 @@ import streamlit as st
 df = pd.read_csv(
     'diamonds_casestudy.csv'
 )
-st.set_page_config(
-    layout='centered'
-)
+# st.set_page_config(
+#     layout='centered'
+# )
 #####
 # Set menu and output variable options
 # Many of these features are directly from the dataset,
