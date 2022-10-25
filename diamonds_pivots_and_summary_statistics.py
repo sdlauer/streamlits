@@ -104,7 +104,7 @@ with tab2:
         )
     with col2:
         # Display table heading
-        st.subheader(numerical2.capitalize() + ' group ' + agg + 's for '
+        st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
             + genre2 + ' and '+ genre3)
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
