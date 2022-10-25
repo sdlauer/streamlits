@@ -63,7 +63,7 @@ def descriptiveStats(num='price', cat='cut'):
         # Get median of the duration column for each group
         Median=(num, np.median),
         # Get size of the duration column for each group
-        Group_size=(num, np.size)).rename_axis(None,
+        Count=(num, np.size)).rename_axis(None,
             axis=1).reset_index().sort_values(by=[cat],
             key=lambda x: x.map(custom_cut)).rename(columns={cat:cat.capitalize()})
 
