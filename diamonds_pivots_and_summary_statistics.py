@@ -10,6 +10,7 @@ df = pd.read_csv(
 st.set_page_config(
     layout='centered'
 )
+
 #####
 # Set menu and output variable options
 # Many of these features are directly from the dataset,
@@ -39,6 +40,20 @@ hide_table_row_index_and_adjust_spacing = '''
     tbody th {display:none}
     [data-testid=column]:nth-of-type(3)
     [data-testid=stVerticalBlock]{gap: 0rem;}
+    .reportview-container .sidebar-content {{
+        padding-top: {padding_top}rem;
+    }}
+    .reportview-container .main .block-container {{
+        {max_width_str}
+        padding-top: {padding_top}rem;
+        padding-right: {padding_right}rem;
+        padding-left: {padding_left}rem;
+        padding-bottom: {padding_bottom}rem;
+    }}
+    .reportview-container .main {{
+        color: {color};
+        background-color: {background_color};
+    }}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
