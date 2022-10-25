@@ -16,10 +16,13 @@ st.set_page_config(
 # Many of these features are directly from the dataset,
 # so should have the same capitalization as the original data
 #####
+
 # Pivot table calculation options
 aggFeatures = ('count', 'mean')
 # Categorical features options
 catFeatures = ( 'clarity', 'color', 'cut')
+# Order the cut category from highest to lowest quality
+custom_cut = {'Fair': 4,'Good': 3,'Ideal': 0,'Premium': 1,'Very Good': 2}
 # Numerical features options
 numFeatures = ['carat','depth','table','price','width','length','height']
 # Categorical feature categories
@@ -32,16 +35,16 @@ feature_dict ={
 sortagg = {'mean': np.mean,'count': np.size}
 
 # Make pivot table with menu choices
-def pivotTable(val='price',indx='cut',cols='color', sortby=np.mean):
+def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
     return df.pivot_table(
         values=val,
         index=indx,
         columns=cols,
         aggfunc=sortby,
-        ).rename_axis(None,axis=1).reset_index()#.rename(columns={cols:cols_cap})
+        ).rename_axis(None, axis=1).reset_index()
 
 # Make descriptive statistics table with menu choices
-def descriptiveStats(num='price',cat='cut'):
+def descriptiveStats(num='price', cat='cut'):
     # Hide row index column
     hide_table_row_index = '''
         <style>
@@ -50,19 +53,16 @@ def descriptiveStats(num='price',cat='cut'):
         </style>
         '''
     st.markdown(hide_table_row_index, unsafe_allow_html=True)
-
-    # Order the cut category from highest to lowest quality
-    custom_cut = {'Fair': 4,'Good': 3,'Ideal': 0,'Premium': 1,'Very Good': 2}
-    cat_cap = cat.capitalize() # Sentence begins with category name
+    # Return descriptive statistics table
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group
-        mean=(num, np.mean),
+        Mean=(num, np.mean),
         # Get median of the duration column for each group
         Median=(num, np.median),
         # Get count of the duration column for each group
         Group_size=(num, np.size)).rename_axis(None,
             axis=1).reset_index().sort_values(by=[cat],
-            key=lambda x: x.map(custom_cut)).rename(columns={cat:cat_cap})
+            key=lambda x: x.map(custom_cut)).rename(columns={cat:cat.capitalize()})
 
 # Set page tabs for display
 tab1, tab2 = st.tabs(['Summary statistics', 'Pivot table'])
