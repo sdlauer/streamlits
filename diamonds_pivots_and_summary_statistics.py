@@ -40,7 +40,7 @@ hide_table_row_index_and_adjust_spacing = '''
     tbody th {display:none}
     [data-testid=column]:nth-of-type(3)
     [data-testid=stVerticalBlock]{gap: 0rem;}
-    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0rem;}
+    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 1rem;}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
