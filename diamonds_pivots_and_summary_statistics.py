@@ -89,12 +89,12 @@ with tab1:
 with tab2:
     col1, col2 = st.columns([1,4])
     with col1:
-    numerical2 = st.selectbox(
-        'Numerical pivot', numFeatures
-    )
-    agg = st.selectbox(
-        'Aggregation', aggFeatures
-    )
+        numerical2 = st.selectbox(
+            'Numerical pivot', numFeatures
+        )
+        agg = st.selectbox(
+            'Aggregation', aggFeatures
+        )
         genre2 = st.selectbox(
             'Categorical feature 1', catFeatures
         )
