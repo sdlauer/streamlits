@@ -102,8 +102,8 @@ with tab2:
             'Categorical feature 2', catfeatures2
         )
     with col2:
-            + genre2 + ' and '+ genre3)
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
     # Display table caption
-    st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
+    st.subheader(numerical2.capitalize() + ' ' + agg + 's for ' + genre2
+        + ' and '+ genre3)
