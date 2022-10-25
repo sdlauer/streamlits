@@ -44,7 +44,7 @@ feature_dict ={
     }
 
 
-# Make Summarystatistics table with menu choices
+# Make Summary statistics table with menu choices
 def descriptiveStats(num='price', cat='cut'):
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group

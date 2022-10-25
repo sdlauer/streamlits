@@ -55,7 +55,7 @@ def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
         aggfunc=sortby,
         ).rename_axis(None, axis=1).reset_index()
 
-# Make Summarystatistics table with menu choices
+# Make Summary statistics table with menu choices
 def descriptiveStats(num='price', cat='cut'):
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group
@@ -82,7 +82,7 @@ with tab1:
         )
     with col2:
         # Display table caption
-        st.subheader('Summarystatistics for '+ numerical1 + ' by '  + genre1)
+        st.subheader('Summary statistics for '+ numerical1 + ' by '  + genre1)
         # Display a static table
         st.table(descriptiveStats(numerical1,genre1))
 
