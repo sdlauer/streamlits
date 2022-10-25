@@ -6,7 +6,7 @@ import seaborn as sns
 import streamlit as st
 
 df = pd.read_csv(
-    'diamonds_casestudy.csv'
+    'https://github.com/sdlauer/streamlits/blob/main/live_streamlits/diamonds_casestudy.csv'
 )
 st.set_page_config(
     layout='centered'
