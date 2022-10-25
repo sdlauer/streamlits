@@ -44,6 +44,7 @@ def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
         columns=cols,
         aggfunc=sortby,
         ).rename_axis(None, axis=1).reset_index()
+    # Display table caption
 
 # Page has 4 menu selectors and a pivot table
 col1, col2 = st.columns([1,4])
@@ -62,8 +63,8 @@ with col1:
         'Categorical feature 2', catfeatures2
     )
 with col2:
-    # Display table heading
-    st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
-        + genre2 + ' and '+ genre3)
+
     # Display a static table
     st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
+st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
+    + genre2 + ' and '+ genre3)

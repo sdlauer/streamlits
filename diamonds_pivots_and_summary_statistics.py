@@ -63,7 +63,6 @@ def descriptiveStats(num='price', cat='cut'):
         Group_size=(num, np.size)).rename_axis(None,
             axis=1).reset_index().sort_values(by=[cat],
             key=lambda x: x.map(custom_cut)).rename(columns={cat:cat.capitalize()})
-# Display table heading
 
 # Set page tabs for display
 tab1, tab2 = st.tabs(['Summary statistics', 'Pivot table'])
@@ -79,10 +78,10 @@ with tab1:
             'Categorical feature', catFeatures
         )
     with col2:
-        # Display table heading
-        st.subheader('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
         # Display a static table
         st.table(descriptiveStats(numerical1,genre1))
+    # Display table caption
+    st.subheader('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
 
 
 # Second tab has two columns:  4 menu selectors and a pivot table
@@ -103,8 +102,8 @@ with tab2:
             'Categorical feature 2', catfeatures2
         )
     with col2:
-        # Display table heading
-        st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
             + genre2 + ' and '+ genre3)
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
+    # Display table caption
+    st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
