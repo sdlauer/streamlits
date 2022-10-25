@@ -38,9 +38,10 @@ hide_table_row_index_and_adjust_spacing = '''
     <style>
     thead tr th:first-child {display:none}
     tbody th {display:none}
-    [data-testid=column]:nth-of-type(3)
+    [data-testid=column]:nth-of-type(2)
     [data-testid=stVerticalBlock]{gap: 0rem;}
-    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 1rem;}
+    #root > div:nth-child(1) > div > div > div > div > section >
+        div {padding-top: 1rem;}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
@@ -54,7 +55,7 @@ def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
         aggfunc=sortby,
         ).rename_axis(None, axis=1).reset_index()
 
-# Make descriptive statistics table with menu choices
+# Make Summarystatistics table with menu choices
 def descriptiveStats(num='price', cat='cut'):
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group
@@ -80,11 +81,10 @@ with tab1:
             'Categorical feature', catFeatures
         )
     with col2:
+        # Display table caption
+        st.subheader('Summarystatistics for '+ numerical1 + ' by '  + genre1)
         # Display a static table
         st.table(descriptiveStats(numerical1,genre1))
-    # Display table caption
-    st.write('Descriptive statistics for '+ numerical1 + ' by '  + genre1)
-
 
 # Second tab has two columns:  4 menu selectors and a pivot table
 with tab2:
@@ -104,8 +104,9 @@ with tab2:
             'Categorical feature 2', catfeatures2
         )
     with col2:
+        # Display table caption
+        st.subheader('Pivot table of ' + numerical2 + ' ' + agg + 's for '
+            + genre2 + ' and '+ genre3)
         # Display a static table
-        st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
-    # Display table caption
-    st.write('Pivot table of ' + numerical2 + ' ' + agg + 's for ' + genre2
-        + ' and '+ genre3)
+        st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3,
+            sortby=sortagg[agg]))

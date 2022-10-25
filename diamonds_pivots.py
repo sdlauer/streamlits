@@ -64,8 +64,7 @@ with col1:
         'Categorical feature 2', catfeatures2
     )
 with col2:
-
+    st.subheader('Pivot table of ' + numerical2 + ' ' + agg + 's for '
+        + genre2 + ' and '+ genre3)
     # Display a static table
     st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
-st.write('Pivot table of ' + numerical2 + ' ' + agg + 's for '
-    + genre2 + ' and '+ genre3)

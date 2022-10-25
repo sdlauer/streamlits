@@ -18,7 +18,8 @@ hide_table_row_index_and_adjust_spacing = '''
     tbody th {display:none}
     [data-testid=column]:nth-of-type(2)
     [data-testid=stVerticalBlock]{gap: 0rem;}
-    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0rem;}
+    #root > div:nth-child(1) > div > div > div > div > section >
+        div {padding-top: 0rem;}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
@@ -43,7 +44,7 @@ feature_dict ={
     }
 
 
-# Make descriptive statistics table with menu choices
+# Make Summarystatistics table with menu choices
 def descriptiveStats(num='price', cat='cut'):
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group
@@ -65,7 +66,7 @@ with col1:
         'Categorical feature', catFeatures
     )
 with col2:
+    # Display table caption
+    st.subheader('Summary statistics for '+ numerical1.capitalize() + ' by '  + genre1)
     # Display a static table
     st.table(descriptiveStats(numerical1,genre1))
-# Display table caption
-st.write('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
