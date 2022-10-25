@@ -105,5 +105,5 @@ with tab2:
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
     # Display table caption
-    st.write(numerical2.capitalize() + ' ' + agg + 's for ' + genre2
+    st.write('Pivot table of ' + numerical2 + ' ' + agg + 's for ' + genre2
         + ' and '+ genre3)
