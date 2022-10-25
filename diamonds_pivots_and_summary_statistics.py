@@ -17,7 +17,7 @@ st.set_page_config(
 #####
 
 # Pivot table calculation options
-aggFeatures = ('size', 'mean')
+aggFeatures = ('mean', 'count')
 # Categorical features options
 catFeatures = ( 'clarity', 'color', 'cut')
 # Order the cut category from highest to lowest quality
@@ -31,7 +31,17 @@ feature_dict ={
     'cut': ['Ideal','Premium','Very Good','Good','Fair'],
     }
 # Aggregation calculation format for the pivot table
-sortagg = {'mean': np.mean,'size': np.size}
+sortagg = {'mean': np.mean,'count': np.size}
+# Hide row index column and minimize spacing between elements
+hide_table_row_index_and_adjust_spacing = '''
+    <style>
+    thead tr th:first-child {display:none}
+    tbody th {display:none}
+    [data-testid=column]:nth-of-type(2)
+    [data-testid=stVerticalBlock]{gap: 0rem;}
+    </style>
+    '''
+st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
 
 # Make pivot table with menu choices
 def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
@@ -44,15 +54,6 @@ def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
 
 # Make descriptive statistics table with menu choices
 def descriptiveStats(num='price', cat='cut'):
-    # Hide row index column
-    hide_table_row_index = '''
-        <style>
-        thead tr th:first-child {display:none}
-        tbody th {display:none}
-        </style>
-        '''
-    st.markdown(hide_table_row_index, unsafe_allow_html=True)
-    # Return descriptive statistics table
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group
         Mean=(num, np.mean),
@@ -62,13 +63,14 @@ def descriptiveStats(num='price', cat='cut'):
         Group_size=(num, np.size)).rename_axis(None,
             axis=1).reset_index().sort_values(by=[cat],
             key=lambda x: x.map(custom_cut)).rename(columns={cat:cat.capitalize()})
+# Display table heading
 
 # Set page tabs for display
 tab1, tab2 = st.tabs(['Summary statistics', 'Pivot table'])
 
 # First tab has two columns:  2 menu selectors and a summary statistics table
 with tab1:
-    col1, col2 = st.columns([1,4])
+    col1, col2 = st.columns([1,3])
     with col1:
         numerical1 = st.selectbox(
             'Numerical feature', numFeatures
@@ -82,16 +84,17 @@ with tab1:
         # Display a static table
         st.table(descriptiveStats(numerical1,genre1))
 
+
 # Second tab has two columns:  4 menu selectors and a pivot table
 with tab2:
     col1, col2 = st.columns([1,4])
     with col1:
-        agg = st.selectbox(
-            'Aggregation', aggFeatures
-        )
-        numerical2 = st.selectbox(
-            'Numerical pivot', numFeatures
-        )
+    numerical2 = st.selectbox(
+        'Numerical pivot', numFeatures
+    )
+    agg = st.selectbox(
+        'Aggregation', aggFeatures
+    )
         genre2 = st.selectbox(
             'Categorical feature 1', catFeatures
         )
@@ -101,7 +104,7 @@ with tab2:
         )
     with col2:
         # Display table heading
-        st.subheader('Pivot table with ' + numerical2 + ' ' + agg + 's for '
+        st.subheader(numerical2.capitalize() + ' group ' + agg + 's for '
             + genre2 + ' and '+ genre3)
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))

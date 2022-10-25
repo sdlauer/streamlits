@@ -11,6 +11,17 @@ df = pd.read_csv(
 st.set_page_config(
     layout='centered'
 )
+# Hide row index column and minimize spacing between elements
+hide_table_row_index_and_adjust_spacing = '''
+    <style>
+    thead tr th:first-child {display:none}
+    tbody th {display:none}
+    [data-testid=column]:nth-of-type(2)
+    [data-testid=stVerticalBlock]{gap: 0rem;}
+    </style>
+    '''
+st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
+
 #####
 # Set menu and output variable options
 # Many of these features are directly from the dataset,
@@ -33,15 +44,6 @@ feature_dict ={
 
 # Make descriptive statistics table with menu choices
 def descriptiveStats(num='price', cat='cut'):
-    # Hide row index column
-    hide_table_row_index = '''
-        <style>
-        thead tr th:first-child {display:none}
-        tbody th {display:none}
-        </style>
-        '''
-    st.markdown(hide_table_row_index, unsafe_allow_html=True)
-    # Return descriptive statistics table
     return df[[cat,num]].groupby(cat).agg(
         # Get mean of the numerical column for each group
         Mean=(num, np.mean),
