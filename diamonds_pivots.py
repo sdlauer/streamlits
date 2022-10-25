@@ -66,5 +66,5 @@ with col2:
 
     # Display a static table
     st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
-st.subheader(numerical2.capitalize() + ' ' + agg + 's for '
+st.write(numerical2.capitalize() + ' ' + agg + 's for '
     + genre2 + ' and '+ genre3)

@@ -37,7 +37,7 @@ hide_table_row_index_and_adjust_spacing = '''
     <style>
     thead tr th:first-child {display:none}
     tbody th {display:none}
-    [data-testid=column]:nth-of-type(2)
+    [data-testid=column]:nth-of-type(3)
     [data-testid=stVerticalBlock]{gap: 0rem;}
     </style>
     '''
@@ -81,7 +81,7 @@ with tab1:
         # Display a static table
         st.table(descriptiveStats(numerical1,genre1))
     # Display table caption
-    st.subheader('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
+    st.write('Descriptive statistics for '+ numerical1 + ' by '  + genre1)
 
 
 # Second tab has two columns:  4 menu selectors and a pivot table
@@ -105,5 +105,5 @@ with tab2:
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
     # Display table caption
-    st.subheader(numerical2.capitalize() + ' ' + agg + 's for ' + genre2
+    st.write(numerical2.capitalize() + ' ' + agg + 's for ' + genre2
         + ' and '+ genre3)

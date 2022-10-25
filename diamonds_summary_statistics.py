@@ -67,4 +67,4 @@ with col2:
     # Display a static table
     st.table(descriptiveStats(numerical1,genre1))
 # Display table caption
-st.subheader('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
+st.write('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
