@@ -18,7 +18,7 @@ df = pd.read_csv(
 #####
 
 # Pivot table calculation options
-aggFeatures = ('count', 'mean')
+aggFeatures = ('size', 'mean')
 # Categorical features options
 catFeatures = ( 'clarity', 'color', 'cut')
 # Order the cut category from highest to lowest quality
@@ -32,7 +32,7 @@ feature_dict ={
     'cut': ['Ideal','Premium','Very Good','Good','Fair'],
     }
 # Aggregation calculation format for the pivot table
-sortagg = {'mean': np.mean,'count': np.size}
+sortagg = {'mean': np.mean,'size': np.size}
 
 # Make pivot table with menu choices
 def pivotTable(val='price', indx='cut', cols='color', sortby=np.mean):
@@ -59,7 +59,7 @@ def descriptiveStats(num='price', cat='cut'):
         Mean=(num, np.mean),
         # Get median of the duration column for each group
         Median=(num, np.median),
-        # Get count of the duration column for each group
+        # Get size of the duration column for each group
         Group_size=(num, np.size)).rename_axis(None,
             axis=1).reset_index().sort_values(by=[cat],
             key=lambda x: x.map(custom_cut)).rename(columns={cat:cat.capitalize()})
@@ -79,7 +79,7 @@ with tab1:
         )
     with col2:
         # Display table heading
-        st.subheader(numerical1.capitalize() + ' summary statistics for '  + genre1)
+        st.subheader('Descriptive statistics for '+ numerical1.capitalize() + ' by '  + genre1)
         # Display a static table
         st.table(descriptiveStats(numerical1,genre1))
 
@@ -102,7 +102,7 @@ with tab2:
         )
     with col2:
         # Display table heading
-        st.subheader(agg.capitalize() + ' pivot table for ' + numerical2 + ' with '
-            + genre2 + ' and '+ genre3 + ' combination')
+        st.subheader('Pivot table with ' + numerical2 + ' ' + agg + 's for '
+            + genre2 + ' and '+ genre3)
         # Display a static table
         st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
