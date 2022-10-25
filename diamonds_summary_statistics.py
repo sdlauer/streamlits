@@ -18,6 +18,7 @@ hide_table_row_index_and_adjust_spacing = '''
     tbody th {display:none}
     [data-testid=column]:nth-of-type(2)
     [data-testid=stVerticalBlock]{gap: 0rem;}
+    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0rem;}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
@@ -63,7 +64,7 @@ with col1:
     genre1 = st.selectbox(
         'Categorical feature', catFeatures
     )
-with col2:    
+with col2:
     # Display a static table
     st.table(descriptiveStats(numerical1,genre1))
 # Display table caption

@@ -17,6 +17,7 @@ hide_table_row_index_and_adjust_spacing = '''
     tbody th {display:none}
     [data-testid=column]:nth-of-type(2)
     [data-testid=stVerticalBlock]{gap: 0rem;}
+    #root > div:nth-child(1) > div > div > div > div > section > div {padding-top: 0rem;}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
@@ -66,5 +67,5 @@ with col2:
 
     # Display a static table
     st.table(pivotTable(val=numerical2, indx=genre2, cols=genre3, sortby=sortagg[agg]))
-st.write(numerical2.capitalize() + ' ' + agg + 's for '
+st.write('Pivot table of ' + numerical2 + ' ' + agg + 's for '
     + genre2 + ' and '+ genre3)
