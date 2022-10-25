@@ -16,9 +16,9 @@ hide_table_row_index_and_adjust_spacing = '''
     thead tr th:first-child {display:none}
     tbody th {display:none}
     [data-testid=column]:nth-of-type(2)
-    [data-testid=stVerticalBlock]{gap: 1rem;}
+    [data-testid=stVerticalBlock]{gap: 0rem;}
     #root > div:nth-child(1) > div > div > div > div > section >
-        div {padding-top: 1rem;}
+        div {padding-top: 2rem;}
     </style>
     '''
 st.markdown(hide_table_row_index_and_adjust_spacing, unsafe_allow_html=True)
