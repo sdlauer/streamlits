@@ -36,6 +36,12 @@ sortagg = {'mean': np.mean,'count': np.size}
 # Hide row index column and minimize spacing between elements
 hide_table_row_index_and_adjust_spacing = '''
     <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    body {overflow: hidden;}
+    div.block-container {padding-top:1rem;}
+    div.block-container {padding-bottom:1rem;}
     thead tr th:first-child {display:none}
     tbody th {display:none}
     [data-testid=column]:nth-of-type(2)
