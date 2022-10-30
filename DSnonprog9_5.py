@@ -9,7 +9,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 # from mlxtend.plotting import plot_decision_regions
 
-
 hide = """
         <style>
         #MainMenu {visibility: hidden;}
