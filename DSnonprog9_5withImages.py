@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 # from mlxtend.plotting import plot_decision_regions
-from streamlit_option_menu import option_menu
+# from streamlit_option_menu import option_menu
 
 # A selection of viridis colors generated @ https://hauselin.github.io/colorpalettejs/
 mycolors = ('#414487,#fde725')

@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+streamlit = "*"
+matplotlib = "*"
+numpy = "*"
+setuptools = "*"
+wheel = "*"
+pip = "*"
+seaborn = "*"
+pandas = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
