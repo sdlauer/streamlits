@@ -1,12 +1,13 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score
-from mlxtend.plotting import plot_decision_regions
+# from mlxtend.plotting import plot_decision_regions
+from streamlit_option_menu import option_menu
 
 # A selection of viridis colors generated @ https://hauselin.github.io/colorpalettejs/
 mycolors = ('#414487,#fde725')
@@ -49,15 +50,19 @@ images = {3: "images/KNeigh3.png", 5: "images/KNeigh5.png", 7: "images/KNeigh7.p
                 15: "images/KNeigh15.png", 17: "images/KNeigh17.png", 19: "images/KNeigh19.png"}
 
 # Sets columns with proportions
-col1, col2 = st.columns([2,3])
-# col1, col2 = st.columns([1,4])
+col1, col2 = st.columns([2,11])
         
 with col1:
 # Set menu for column 1
         k = st.selectbox(
             "Select k",
             [3, 5, 7, 9, 11, 13, 15, 17, 19],
-            index=0
+        #     styles={
+        #                 "container": {"padding": "0!important", "background-color": "#fafafa"},
+        #                 "icon": {"color": "orange", "font-size": "25px"}, 
+        #                 "nav-link": {"font-size": "25px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+        #                 "nav-link-selected": {"background-color": "green"},
+        #         }
         )
         # Fit the data and generate performance metrics
         knn = KNeighborsClassifier(n_neighbors=k) 
@@ -69,24 +74,24 @@ with col1:
         recall = recall_score(y_train, y_pred)
 
         st.write("Performance metrics on training data")
-        st.write("Accuracy = ", round(accuracy, 4))
-        st.write("Precision = ", round(precision, 4))
-        st.write("Recall =", round(recall, 4))
-        # st.metric("Accuracy", round(accuracy, 4))
-        # st.metric("Precision", round(precision, 4))
-        # st.metric("Recall", round(recall, 4))
+        # st.write("Accuracy = ", round(accuracy, 4))
+        # st.write("Precision = ", round(precision, 4))
+        # st.write("Recall =", round(recall, 4))
+        st.metric("Accuracy", round(accuracy, 4))
+        st.metric("Precision", round(precision, 4))
+        st.metric("Recall", round(recall, 4))
 
 with col2:
         # Set up plot
-        fig, ax = plt.subplots()
+        # fig, ax = plt.subplots()
 
-        p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, colors=mycolors) 
-        p.set_title('Training region: k-nearest neighbors, k=%i' %k)
-### Uncomment to generate the plots and save the images -- need an images folder ###
-        plt.savefig("images/KNeigh" + str(k) + ".png")
-        st.pyplot(fig, ignore_streamlit_theme=True)
+        # p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, colors=mycolors) 
+        # p.set_title('Training region: k-nearest neighbors, k=%i' %k)
+### Uncomment line below to generate the plots and save the images -- need an images folder ###
+        # plt.savefig("images/KNeigh" + str(k) + ".png")
+        # st.pyplot(fig, ignore_streamlit_theme=True)
 ### Comment line above and Uncomment line below to use images for column 2 ###
-        # st.image(images[k])
+        st.image(images[k])
 
 # Toggles off the Alt-text box at the bottom of the page -- default is text on
 text_hider = st.checkbox('Hide footer')
