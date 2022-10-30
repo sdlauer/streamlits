@@ -63,7 +63,7 @@ with col1:
 
 with col2:
 
-        fig, ax = plt.subplots()
+        # fig, ax = plt.subplots()
 
         # print(y_train)
 
