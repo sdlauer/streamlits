@@ -48,11 +48,11 @@ def chooseColumns(x1, x2, yvar):
         return X,y
 # Graph xvar vs y
 def twoDscatter(xfeatnum=1, xname=varName[1], yname=varName[0]):
-        # fig = plt.figure()
+        fig = plt.figure()
         plt.scatter(X[:,xfeatnum],y,color='black')
         plt.xlabel(xname.capitalize(),fontsize=14)
         plt.ylabel(yname.capitalize(),fontsize=14)
-        # return plt
+        return fig
 # Fit a least squares multiple linear regression model
 def polynomReg(X, y):
         linModel = LinearRegression()
@@ -116,13 +116,13 @@ with col1:
         )
         # polynomReg(x1name,yname) or fig?
         # linModel1 = polynomReg(x1name,yname)
-        # fig1 = twoDscatter(1, x1name, yname)
-        st.pyplot(twoDscatter(1, x1name, yname), ignore_streamlit_theme=True)
+        fig1 = twoDscatter(1, x1name, yname)
+        st.pyplot(fig1, ignore_streamlit_theme=True)
         x2name = st.selectbox(
                 'Second independent feature', filter(lambda x: (x != yname and x != x1name), varName)
         )
-        # fig2 = twoDscatter(1, x2name, yname)
-        st.pyplot(twoDscatter(1, x2name, yname), ignore_streamlit_theme=True)
+        fig2 = twoDscatter(1, x2name, yname)
+        st.pyplot(fig2, ignore_streamlit_theme=True)
         # X,y = chooseColumns(yname, x1name, x2name)
 with col2:
         # Display graph caption
