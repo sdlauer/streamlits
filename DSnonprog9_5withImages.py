@@ -52,7 +52,7 @@ images = {3: "images/KNeigh3.png", 5: "images/KNeigh5.png", 7: "images/KNeigh7.p
                 15: "images/KNeigh15.png", 17: "images/KNeigh17.png", 19: "images/KNeigh19.png"}
 
 # Sets columns with proportions
-col1, col2 = st.columns([1,6])
+col1, col2 = st.columns([1,5])
         
 with col1:
 # Set menu for column 1
