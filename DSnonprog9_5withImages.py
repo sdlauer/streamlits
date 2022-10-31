@@ -20,6 +20,8 @@ hide = """
         body {overflow: hidden;}
         div.block-container {padding-top:1rem;}
         div.block-container {padding-bottom:1rem;}
+        thead tr th:first-child {display:none}
+        tbody th {display:none}
         </style>
         """
 
