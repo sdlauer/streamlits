@@ -84,10 +84,15 @@ with col1:
 with col2:
         # Set up plot
         # fig, ax = plt.subplots()
-
-        # p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, colors=mycolors) 
-        # p.set_title('Training region: k-nearest neighbors, k=%i' %k)
-### Uncomment line below to generate the plots and save the images -- need an images folder ###
+        # p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, legend=2, colors=mycolors) 
+        # p.set_title('Training region: k-nearest neighbors, k=%i' %k, fontsize = 18)
+### Uncomment to generate the plots and save the images -- need an images folder ###
+        # L = plt.legend()
+        # L.get_texts()[0].set_text('Benign')
+        # L.get_texts()[1].set_text('Malignant')
+        # plt.xlabel('Radius mean', fontsize = 14)
+        # plt.ylabel('Texture mean', fontsize = 14)
+        # Uncomment line below to generate images for static graphs
         # plt.savefig("images/KNeigh" + str(k) + ".png")
         # st.pyplot(fig, ignore_streamlit_theme=True)
 ### Comment line above and Uncomment line below to use images for column 2 ###
