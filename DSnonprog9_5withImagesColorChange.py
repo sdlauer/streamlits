@@ -6,11 +6,11 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score
-from mlxtend.plotting import plot_decision_regions
+# from mlxtend.plotting import plot_decision_regions
 # from streamlit_option_menu import option_menu
 
 # A selection of viridis colors generated @ https://hauselin.github.io/colorpalettejs/
-# mycolors = ('#414487,#fde725')
+mycolors = ('#414487,#fde725')
 # hides Streamlit footer and hamburger header 
 hide = """
         <style>
@@ -59,7 +59,7 @@ with col1:
         k = st.selectbox(
             "Select k",
             [3, 5, 7, 9, 11, 13, 15, 17, 19],
-         )
+        )
         # Fit the data and generate performance metrics
         knn = KNeighborsClassifier(n_neighbors=k) 
         knn.fit(X_train_scaled, np.ravel(y_train))
@@ -78,9 +78,9 @@ with col1:
         st.metric("Recall", round(recall, 4))
 
 with col2:
-# Set up plot
+        # Set up plot
         # fig, ax = plt.subplots()
-        # p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, legend=2)#, colors=mycolors) 
+        # p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, legend=2, colors=mycolors) 
         # p.set_title('Training region: k-nearest neighbors, k=%i' %k, fontsize = 18)
 ### Uncomment to generate the plots and save the images -- need an images folder ###
         # L = plt.legend()
@@ -88,7 +88,7 @@ with col2:
         # L.get_texts()[1].set_text('Malignant')
         # plt.xlabel('Radius mean', fontsize = 14)
         # plt.ylabel('Texture mean', fontsize = 14)
-# Uncomment line below to generate images for static graphs
+        # Uncomment line below to generate images for static graphs
         # plt.savefig("images/KNeigh" + str(k) + ".png")
         # st.pyplot(fig, ignore_streamlit_theme=True)
 ### Comment line above and Uncomment line below to use images for column 2 ###
