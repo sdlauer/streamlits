@@ -97,11 +97,11 @@ with col2:
         # st.image(images[k])
 
 # Toggles off the Alt-text box at the bottom of the page -- default is text on
-text_hider = st.checkbox('Hide footer')
+text_hider = st.checkbox('Hide description')
 if text_hider:
         st.write("")
 else:
-        st.write('''Alt-text: All models predict cells with higher radius and texture are malignant. 
+        st.write('''Description: All models predict cells with higher radius and texture are malignant. 
         Decision boundary for k=3 is not smooth. 
         Decision boundary for k=7 is somewhat smooth. 
         Decision boundary for  k=11 is mostly smooth.''')

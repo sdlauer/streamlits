@@ -29,29 +29,38 @@ st.markdown(hide, unsafe_allow_html=True)
 # All other code is dependent on this dataframe definition
 def loadData():
         df = pd.read_csv('mpg.csv', usecols=['mpg','acceleration','weight','cylinders','displacement','horsepower'])
-        df.columns = list(df.columns)
         df = df.dropna()
         df = df.rename(columns={'mpg':'MPG'})
         return df
 elem = 'car'
+# varName = list(df)
+# Specify order of menu
+varName = ['MPG','acceleration','weight','cylinders','displacement','horsepower']
 ##################################################################################################
 df = loadData()
-
-varName = list(df.columns)
 print(varName)
 ##################################################################################################
 # Choose the columns
-def chooseColumns(x1, x2, yvar):
+def chooseColumns(x1, x2, yname):
 #Store relevant columns as variables
         X = df[[x1,x2]].values.reshape(-1, 2)
-        y = df[[yvar]].values.reshape(-1, 1)
+        y = df[[yname]].values.reshape(-1, 1)
         return X,y
 # Graph xvar vs y
-def twoDscatter(xfeatnum=1, xname=varName[1], yname=varName[0]):
+
+def twoDscatter(xname, yname):
+        # low = round(min(df[xname]))
+        # high =  round(max(df[yname]))
+        # delta = round((high - low)/4.0)
+       
         fig = plt.figure()
-        plt.scatter(X[:,xfeatnum],y,color='black')
-        plt.xlabel(xname.capitalize(),fontsize=14)
-        plt.ylabel(yname.capitalize(),fontsize=14)
+        plt.scatter(df[xname],df[yname],color='black')
+        # plt.xlabel(xname.capitalize(),fontsize=45)
+        # plt.ylabel(yname.capitalize(),fontsize=45)
+        plt.xticks(fontsize=20)
+        plt.yticks(fontsize=20) 
+        plt.xticks(rotation=45)   
+        # plt.xticks(np.arange(low, high, delta/2))
         return fig
 # Fit a least squares multiple linear regression model
 def polynomReg(X, y):
@@ -59,97 +68,74 @@ def polynomReg(X, y):
         linModel.fit(X,y)
         return linModel
 # Write the least squares model as an equation
-def getFormula(x1var,x2var,yvar,linModel):
-        formula_text = '\( \widehat{\text{' + yvar + '}} = \)' + str(round(linModel.intercept_[0],2)) + ' + ' 
-        formula_text += str(round(linModel.coef_[0][0],4)) + ' * ('+ x1var + ')' + ' + ' +  str(round(linModel.coef_[0][1],2)) + ' * (' + x2var+ ')'
+def getFormula(x1name,x2name,yname,linModel):
+        formula_text = '\( \widehat{\text{' + yname + '}} = \)' + str(round(linModel.intercept_[0],2)) + ' + ' 
+        formula_text += str(round(linModel.coef_[0][0],4)) + ' * ('+ x1name + ')' + ' + ' +  str(round(linModel.coef_[0][1],2)) + ' * (' + x2name+ ')'
         return formula_text
 # 3D graph
-def get3Dgraph(x1var, x2var, yvar, X, y):
-        linModel = polynomReg(X, y)
-        formula_text = getFormula(x1var,x2var,yvar,linModel)
+formula_text = '\( \widehat{\text{VAR}} = \)'
+def get3Dgraph(x1name, x2name, yname, linModel):
+       
+        
         fig = plt.figure()
         ax = plt.axes(projection='3d')
         #plot the points
-        ax.scatter3D(X[:,0],X[:,1],y,color="Black");
+        ax.scatter3D(df[x1name],df[x2name],df[yname],color="Black");
         #plot the regression as a plane
-        x1Delta, x2DeltaWeight = np.meshgrid(np.linspace(X[:,0].min(),X[:,0].max(),2), np.linspace(X[:,1].min(),X[:,1].max(),2))
+        x1Delta, x2DeltaWeight = np.meshgrid(np.linspace(df[x1name].min(),df[x1name].max(),2), np.linspace(df[x2name].min(),df[x2name].max(),2))
         yDeltaMPG = (linModel.intercept_[0] + linModel.coef_[0][0]*x1Delta + linModel.coef_[0][1]*x2DeltaWeight) 
         ax.plot_surface(x1Delta, x2DeltaWeight, yDeltaMPG, alpha=0.5);
         #Axes labels
-        ax.set_xlabel(x1var.capitalize())
-        ax.set_ylabel(x2var.capitalize())
-        ax.set_zlabel(yvar.capitalize())
+        ax.set_xlabel(x1name.capitalize(), fontsize = 14)
+        ax.set_ylabel(x2name.capitalize(), fontsize = 14)
+        ax.set_zlabel(yname.capitalize(), fontsize = 14)
+        # ax.set_xticklabels(fontsize = 10)
+        ax.set_title('MLR for '+ yname + ' by '  + x1name +' and ' + x2name)
         #Set the view angle
         ax.view_init(30,50)
+        plt.xticks(fontsize=9)
+        plt.yticks(fontsize=9)
+        # ax.set_zticks(fontsize=9)
+
         # ax.set_xlim(28,9)
-        return linModel, fig, formula_text
-def predictor(x1var, x2var, yvar, linModel):
-        x1median = round(df[x1var].median(),2)
-        x2median = round(df[x2var].median(),2)
+        return fig
+def predictor(x1name, x2name, yname, linModel):
+        x1median = round(df[x1name].median(),2)
+        x2median = round(df[x2name].median(),2)
         yMultyPredicted = linModel.predict([[x1median,x2median]])
-        sentence = 'Predicted ' + str(yvar) + ' for a ' + elem + ' with '+ x1var + ' = ' + str(x1median) + ' and ' 
-        sentence += x2var + ' = ' + str(x2median) + 'using the multiple linear regression is ' + str(round(yMultyPredicted[0][0],2)) + '.'
+        sentence = 'Predicted ' + str(yname) + ' for a ' + elem + ' with '+ x1name + ' = ' + str(x1median) + ' and ' 
+        sentence += x2name + ' = ' + str(x2median) + 'using the multiple linear regression is ' + str(round(yMultyPredicted[0][0],2)) + '.'
         return sentence
-###
-#  Initial setup for X, y, linear graphs, MLP equation, and MLP graph
-###
-name=varName[0]
-xname=varName[1]
-xname=varName[2]
-X, y = chooseColumns(x1=varName[1],x2=varName[2],yvar=varName[0])
-fig1 = twoDscatter(xfeatnum=0, xname=varName[1], yname=varName[0])
-fig2 = twoDscatter(xfeatnum=1, xname=varName[2], yname=varName[0])
-linModel, fig3, MLP = get3Dgraph(varName[1],varName[2],varName[0],X,y)
-print(MLP)
-
-# tab1, tab2 = st.tabs(['Polynomial regression', 'Pivot table'])
-
-# First tab has two columns:  2 menu selectors and a summary statistics table
-# with tab1:
+#### Setup streamlit gui
 yname = st.selectbox(
         'Dependent feature', varName 
 )    
+# X, y = chooseColumns(x1name, x2name, yname)
 col1, col2 = st.columns([1,3])
 with col1:
         x1name = st.selectbox(
-                'First independent feature', filter(lambda x: (x != yname), varName)
+                'First independent feature', filter(lambda w: (w != yname), varName)
         )
+        st.pyplot(twoDscatter(x1name, yname), ignore_streamlit_theme=True)
         # polynomReg(x1name,yname) or fig?
         # linModel1 = polynomReg(x1name,yname)
-        fig1 = twoDscatter(1, x1name, yname)
-        st.pyplot(fig1, ignore_streamlit_theme=True)
+        # fig1 = twoDscatter(1, x1name, yname)
         x2name = st.selectbox(
-                'Second independent feature', filter(lambda x: (x != yname and x != x1name), varName)
-        )
-        fig2 = twoDscatter(1, x2name, yname)
-        st.pyplot(fig2, ignore_streamlit_theme=True)
-        # X,y = chooseColumns(yname, x1name, x2name)
+                'Second independent feature', filter(lambda w: (w != yname and w != x1name), varName)
+        )  
+        
+        st.pyplot(twoDscatter(x2name, yname), ignore_streamlit_theme=True)
+       
 with col2:
         # Display graph caption
-        st.subheader('Multiple linear regression for '+ yname + ' by '  + x1name +' and ' + x2name)
-        # fig3 = get3Dgraph(x1name,x2name,yname,X,y,linModel)
-        # st.pyplot(fig3, ignore_streamlit_theme=True)
-        # st.latex('r' + getFormula(x1name,x2name,yname))
-
-# Second tab has two columns:  4 menu selectors and a pivot table
-# with tab2:
-#     col1, col2 = st.columns([1,4])
-#     with col1:
-#         nxcarF = st.selectbox(
-#             'Numerical pivot', numFeatures
-#         )
-#         agg = st.selectbox(
-#             'Aggregation', aggFeatures
-#         )
-#         genre2 = st.selectbox(
-#             'Categorical feature 1', catFeatures
-#         )
-#         catfeatures2 = filter(lambda x: x != genre2, catFeatures)
-#         genre3 = st.selectbox(
-#             'Categorical feature 2', catfeatures2
-#         )
-#     with col2:
-#         # Display table caption
-#         st.subheader('Pivot table of ' + numerical2 + ' ' + agg + 's for '
-#             + genre2 + ' and '+ genre3)
-
+        X, y = chooseColumns(x1name,x2name, yname)
+        linModel = polynomReg(X, y)
+        st.pyplot(get3Dgraph(x1name,x2name,yname,linModel), ignore_streamlit_theme=True)
+        st.latex('r' + getFormula(x1name,x2name,yname,linModel))
+# Toggles off the Alt-text box at the bottom of the page -- default is text on
+text_hider = st.checkbox('Hide description')
+if text_hider:
+        st.write("")
+else:
+        description = "Description: NEEDS TO BE ALGORITHMIC FROM ABOVE"
+        st.write(description)

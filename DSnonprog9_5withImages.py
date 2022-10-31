@@ -24,9 +24,12 @@ hide = """
         tbody th {display:none}
         div[data-testid="stMetricValue"] > div {
                 background-color: grey;
-                font-size: 32px;
+                font-size: 14px;
                 color: orange;
                 font-family: Arial, Helvetica, sans-serif;
+                # margin: 15px;
+                padding: 5px;
+                border-radius:20px;
         </style>
         """
 

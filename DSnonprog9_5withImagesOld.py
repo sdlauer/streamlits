@@ -1,13 +1,14 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from mlxtend.plotting import plot_decision_regions
-# from streamlit_option_menu import option_menu
+
+
 
 # A selection of viridis colors generated @ https://hauselin.github.io/colorpalettejs/
 # mycolors = ('#414487,#fde725')
@@ -22,6 +23,16 @@ hide = """
         div.block-container {padding-bottom:1rem;}
         thead tr th:first-child {display:none}
         tbody th {display:none}
+        div[data-testid="stMetricValue"] > div {
+                background-color: grey;
+                font-size: 32px;
+                color: orange;
+                font-family: Arial, Helvetica, sans-serif;
+        div[data-testid="stSelectBox"] > div {
+                background-color: grey;
+                font-size: 32px;
+                color: orange;
+                font-family: Arial, Helvetica, sans-serif;
         </style>
         """
 
@@ -48,8 +59,8 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 # Store images for quicker reload -- made with line 82 below
-images = {3: "images/KNeigh3.png", 5: "images/KNeigh5.png", 7: "images/KNeigh7.png", 9: "images/KNeigh9.png", 11: "images/KNeigh11.png", 13: "images/KNeigh13.png", 
-                15: "images/KNeigh15.png", 17: "images/KNeigh17.png", 19: "images/KNeigh19.png"}
+images = {3: "Yellow_Purple_images/KNeigh3.png", 5: "Yellow_Purple_images/KNeigh5.png", 7: "Yellow_Purple_images/KNeigh7.png", 9: "Yellow_Purple_images/KNeigh9.png", 11: "Yellow_Purple_images/KNeigh11.png", 13: "Yellow_Purple_images/KNeigh13.png", 
+                15: "Yellow_Purple_images/KNeigh15.png", 17: "Yellow_Purple_images/KNeigh17.png", 19: "Yellow_Purple_images/KNeigh19.png"}
 
 # Sets columns with proportions
 col1, col2 = st.columns([1,5])
@@ -89,7 +100,7 @@ with col2:
         # plt.xlabel('Radius mean', fontsize = 14)
         # plt.ylabel('Texture mean', fontsize = 14)
 # Uncomment line below to generate images for static graphs
-        # plt.savefig("images/KNeigh" + str(k) + ".png")
+        # plt.savefig("Yellow_Purple_images/KNeigh" + str(k) + ".png")
         # st.pyplot(fig, ignore_streamlit_theme=True)
 ### Comment line above and Uncomment line below to use images for column 2 ###
         st.image(images[k])
