@@ -22,6 +22,11 @@ hide = """
         div.block-container {padding-bottom:1rem;}
         thead tr th:first-child {display:none}
         tbody th {display:none}
+        div[data-testid="stMetricValue"] > div {
+                background-color: grey;
+                font-size: 32px;
+                color: orange;
+                font-family: Arial, Helvetica, sans-serif;
         </style>
         """
 
@@ -48,8 +53,8 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 # Store images for quicker reload -- made with line 82 below
-images = {3: "images/KNeigh3.png", 5: "images/KNeigh5.png", 7: "images/KNeigh7.png", 9: "images/KNeigh9.png", 11: "images/KNeigh11.png", 13: "images/KNeigh13.png", 
-                15: "images/KNeigh15.png", 17: "images/KNeigh17.png", 19: "images/KNeigh19.png"}
+images = {3: "Yellow_Purple_images/KNeigh3.png", 5: "Yellow_Purple_images/KNeigh5.png", 7: "Yellow_Purple_images/KNeigh7.png", 9: "Yellow_Purple_images/KNeigh9.png", 11: "Yellow_Purple_images/KNeigh11.png", 13: "Yellow_Purple_images/KNeigh13.png", 
+                15: "Yellow_Purple_images/KNeigh15.png", 17: "Yellow_Purple_images/KNeigh17.png", 19: "Yellow_Purple_images/KNeigh19.png"}
 
 # Sets columns with proportions
 col1, col2 = st.columns([1,5])
@@ -78,18 +83,18 @@ with col1:
         st.metric("Recall", round(recall, 4))
 
 with col2:
-        # Set up plot
+## Set up plot
         # fig, ax = plt.subplots()
         # p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, legend=2, colors=mycolors) 
         # p.set_title('Training region: k-nearest neighbors, k=%i' %k, fontsize = 18)
-### Uncomment to generate the plots and save the images -- need an images folder ###
+## Uncomment to generate the plots and save the images -- need an images folder ###
         # L = plt.legend()
         # L.get_texts()[0].set_text('Benign')
         # L.get_texts()[1].set_text('Malignant')
         # plt.xlabel('Radius mean', fontsize = 14)
         # plt.ylabel('Texture mean', fontsize = 14)
-        # Uncomment line below to generate images for static graphs
-        # plt.savefig("images/KNeigh" + str(k) + ".png")
+## Uncomment line below to generate images for static graphs
+        # plt.savefig("Yellow_Purple_images/KNeigh" + str(k) + ".png")
         # st.pyplot(fig, ignore_streamlit_theme=True)
 ### Comment line above and Uncomment line below to use images for column 2 ###
         st.image(images[k])

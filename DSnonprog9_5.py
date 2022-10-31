@@ -19,6 +19,8 @@ hide = """
         body {overflow: hidden;}
         div.block-container {padding-top:1rem;}
         div.block-container {padding-bottom:1rem;}
+        
+        }
         </style>
         """
 
@@ -79,7 +81,7 @@ with col1:
 with col2:
         # Set up plot
         fig, ax = plt.subplots()
-        p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, legend=2, colors=mycolors) 
+        p = plot_decision_regions(X_train_scaled, np.ravel(y_train), clf=knn, legend=2)#, colors=mycolors) 
         p.set_title('Training region: k-nearest neighbors, k=%i' %k, fontsize = 18)
 ### Uncomment to generate the plots and save the images -- need an images folder ###
         L = plt.legend()
@@ -87,7 +89,7 @@ with col2:
         L.get_texts()[1].set_text('Malignant')
         plt.xlabel('Radius mean', fontsize = 14)
         plt.ylabel('Texture mean', fontsize = 14)
-        plt.savefig("images/KNeigh" + str(k) + ".png")
+        # plt.savefig("images/KNeigh" + str(k) + ".png")
         
         st.pyplot(fig, ignore_streamlit_theme=True)
         
