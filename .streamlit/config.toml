@@ -10,7 +10,7 @@ caching = true
 # The preset Streamlit theme that your custom theme inherits from. One of "light" or "dark".
 base = "light"
 # Primary accent color for interactive elements.
-primaryColor = "#E68143#1FC81E"
+primaryColor = "#E68143"
 # Background color for the main content area.
 #backgroundColor = "#FFFFFF"
 # Background color used for the sidebar and most interactive widgets.
