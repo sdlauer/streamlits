@@ -69,23 +69,19 @@ def polynomReg(X, y):
         linModel.fit(X,y)
         return linModel
 def checkSign(val):
-        unval = -val
         if val < 0:
-                return " - " + str(unval)
+                return " - " + str(-val)
         return " + " + str(val)
 # Write the least squares model as an equation
 def getFormula(x1name,x2name,yname,linModel):
         x1coef = round(linModel.coef_[0][0],3)
-        x2coef = round(linModel.coef_[0][1],3)
-        
+        x2coef = round(linModel.coef_[0][1],3)        
         formula_text = '\widehat{\\text{' + yname + '}} = ' + str(round(linModel.intercept_[0],3))
         formula_text += checkSign(x1coef) + ' * (\\text{' + x1name + '})' +  checkSign(x2coef) + ' * (\\text{' + x2name + '})'
         return formula_text
 # 3D graph
 formula_text = '\( \widehat{\text{VAR}} = \)'
 def get3Dgraph(x1name, x2name, yname, linModel,angle=50):
-       
-        
         fig = plt.figure()
         ax = plt.axes(projection='3d')
         #plot the points
@@ -137,11 +133,12 @@ with col1:
                 'Second independent feature', filter(lambda w: (w != yname and w != x1name), varName)
         )  
         st.pyplot(twoDscatter(x2name, yname), ignore_streamlit_theme=True)
-        angle = st.slider('Horizontal rotation angle', 0, 90,40) 
+        
 with col2:
         # Display graph caption
         X, y = chooseColumns(x1name,x2name, yname)
         linModel = polynomReg(X, y)
+        angle = st.slider('Horizontal rotation angle', 0, 90,40) 
         st.pyplot(get3Dgraph(x1name,x2name,yname,linModel,angle), ignore_streamlit_theme=True)
         st.latex(getFormula(x1name,x2name,yname,linModel))
         st.latex('\,')
