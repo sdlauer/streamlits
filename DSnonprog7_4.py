@@ -138,10 +138,10 @@ with col2:
         # Display graph caption
         X, y = chooseColumns(x1name,x2name, yname)
         linModel = polynomReg(X, y)
-        st.pyplot(get3Dgraph(x1name,x2name,yname,linModel,angle), ignore_streamlit_theme=True)
         st.latex(getFormula(x1name,x2name,yname,linModel))
-        st.latex('\,')
+        # st.latex('\,')
         st.write(predictor(x1name, x2name, yname, linModel))
+        st.pyplot(get3Dgraph(x1name,x2name,yname,linModel,angle), ignore_streamlit_theme=True)
 # Toggles off the Alt-text box at the bottom of the page -- default is text on
 # altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
 text_hider = st.checkbox('Hide description')
