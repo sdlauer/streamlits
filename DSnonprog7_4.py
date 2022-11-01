@@ -53,11 +53,7 @@ def chooseColumns(x1, x2, yname):
         return X,y
 # Graph xvar vs y
 
-def twoDscatter(xname, yname):
-        # low = round(min(df[xname]))
-        # high =  round(max(df[yname]))
-        # delta = round((high - low)/4.0)
-       
+def twoDscatter(xname, yname):     
         fig = plt.figure()
         plt.scatter(df[xname],df[yname],color='black')
         # plt.xlabel(xname.capitalize(),fontsize=45)
@@ -72,10 +68,18 @@ def polynomReg(X, y):
         linModel = LinearRegression()
         linModel.fit(X,y)
         return linModel
+def checkSign(val):
+        unval = -val
+        if val < 0:
+                return " - " + str(unval)
+        return " + " + str(val)
 # Write the least squares model as an equation
 def getFormula(x1name,x2name,yname,linModel):
-        formula_text = '\widehat{\\text{' + yname + '}} = ' + str(round(linModel.intercept_[0],2)) + ' + ' 
-        formula_text += str(round(linModel.coef_[0][0],4)) + ' * (\\text{' + x1name + '}) + ' +  str(round(linModel.coef_[0][1],2)) + ' * (\\text{' + x2name + '})'
+        x1coef = round(linModel.coef_[0][0],3)
+        x2coef = round(linModel.coef_[0][1],3)
+        
+        formula_text = '\widehat{\\text{' + yname + '}} = ' + str(round(linModel.intercept_[0],3))
+        formula_text += checkSign(x1coef) + ' * (\\text{' + x1name + '})' +  checkSign(x2coef) + ' * (\\text{' + x2name + '})'
         return formula_text
 # 3D graph
 formula_text = '\( \widehat{\text{VAR}} = \)'
@@ -108,11 +112,11 @@ def get3Dgraph(x1name, x2name, yname, linModel,angle=50):
         # ax.set_xlim(28,9)
         return fig
 def predictor(x1name, x2name, yname, linModel):
-        x1median = round(df[x1name].median(),2)
-        x2median = round(df[x2name].median(),2)
+        x1median = round(df[x1name].median(),3)
+        x2median = round(df[x2name].median(),3)
         yMultyPredicted = linModel.predict([[x1median,x2median]])
         sentence = 'Predicted ' + str(yname) + ' for a ' + elem + ' with \n'+ x1name + ' = ' + str(x1median) + ' and ' 
-        sentence += x2name + ' = ' + str(x2median) + ' using the multiple linear regression formula is ' + str(round(yMultyPredicted[0][0],2)) + '.'
+        sentence += x2name + ' = ' + str(x2median) + ' using the multiple linear regression formula is ' + str(round(yMultyPredicted[0][0],3)) + '.'
         return sentence
 #### Setup streamlit gui
 
