@@ -141,7 +141,7 @@ with col2:
         angle = st.slider('Horizontal rotation angle', 0, 90,40) 
         st.pyplot(get3Dgraph(x1name,x2name,yname,linModel,angle), ignore_streamlit_theme=True)
         st.latex(getFormula(x1name,x2name,yname,linModel))
-        st.latex('\,')
+        # st.latex('\,')
         st.write(predictor(x1name, x2name, yname, linModel))
 # Toggles off the Alt-text box at the bottom of the page -- default is text on
 # altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
