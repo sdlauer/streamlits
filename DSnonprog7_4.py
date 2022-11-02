@@ -50,12 +50,12 @@ maxy = maxs[0]
 numDataPts = df['MPG'].count()
 print(maxs, mins, numDataPts)
 textInfo = {
-        'acceleration': [mins[1], maxs[1], 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
-        'weight': [mins[2], maxs[2], 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
-        'cylinders': [mins[3], maxs[3], 'The points are in vertical bands above 3, 4, 5, 6, and 8 cylinders with no points plotted between the bands'],
-        'displacement': [mins[4], maxs[4], 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
+        'acceleration': [df[varName[0]].min(), df[varName[0]].max(), 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
+        'weight': [df[varName[1]].min(), df[varName[1]].max(), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
+        'cylinders': [df[varName[2]].min(), df[varName[2]].max(), 'The points are in vertical bands above 3, 4, 5, 6, and 8 cylinders with no points plotted between the bands'],
+        'displacement': [df[varName[3]].min(), df[varName[3]].max(), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
                 'with some vertical banding stripes at higher displacement levels'],
-        'horsepower': [mins[5], maxs[5], 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
+        'horsepower': [df[varName[4]].min(), df[varName[4]].max(), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
                 'with some vertical banding stripes in the middle of the range']}
 mesh = ['plane', 'quadratic surface']
 def getAltText(x1name, x2name, yname, degree):
