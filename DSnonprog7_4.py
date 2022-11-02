@@ -89,6 +89,8 @@ def checkSign(val):
                 sgn = " + "
         if abs(val) < 0.001:
                 num = "{:.3e}".format(abs(val))
+                num = str(num.replace('-0','-').replace('e0','e'))
+                num = num[:5] + '\\times 10^{' + num[6:] + '}'
         else:
                 num = round(val,3)      
         return sgn + str(num)
@@ -206,7 +208,7 @@ def predictor(x1name, x2name, yname, deg):
 config = {'displaylogo': False, 'displayModeBar': False}
 col1, col2 = st.columns([1,3])
 with col1:
-        ###### Use if model is generalized
+        ###### Use if model is generalized to using all variables for y
         # yname = st.selectbox(
         # 'Dependent feature', varName 
         # )  
@@ -218,13 +220,11 @@ with col1:
         )
         # Select first indendent variable      
         x1name = st.selectbox(
-                'First independent feature',  varName
+                'First independent feature',  varName # add lambda filter including yname if generalized
         )
-
-        # Select second indendent variable 
-       
+        # Select second indendent variable     
         x2name = st.selectbox(
-                'Second independent feature', filter(lambda w:  w != x1name, varName)
+                'Second independent feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
         ) 
         st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
         # Graph 2C scatter plots
@@ -246,6 +246,3 @@ if text_hider:
 else:
         description = "Description: NEEDS TO BE ALGORITHMIC FROM ABOVE"
         st.write(description)
-# plot_ly() %>%
-#                 config(displaylogo = FALSE)
-#                 config(displayModeBar = FALSE)
