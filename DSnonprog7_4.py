@@ -40,12 +40,37 @@ def loadData():
 elem = 'car'
 varName = ['acceleration','weight','cylinders','displacement','horsepower'] # MPG was first entry of array
 
-##################################################################################################
 # Set recurrent variables
 yname = 'MPG'
-# x1name = 'acceleration'
-# x2name = 'weight'
 df = loadData()
+maxs = df.max()
+mins = df.min()
+miny = mins[0]
+maxy = maxs[0]
+numDataPts = df['MPG'].count()
+print(maxs, mins, numDataPts)
+textInfo = {
+        'acceleration': [mins[1], maxs[1], 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
+        'weight': [mins[2], maxs[2], 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
+        'cylinders': [mins[3], maxs[3], 'The points are in vertical bands above 3, 4, 5, 6, and 8 cylinders with no points plotted between the bands'],
+        'displacement': [mins[4], maxs[4], 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
+                'with some vertical banding stripes at higher displacement levels'],
+        'horsepower': [mins[5], maxs[5], 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
+                'with some vertical banding stripes in the middle of the range']}
+mesh = ['plane', 'quadratic surface']
+def getAltText(x1name, x2name, yname, degree):
+        return ('The scene contains 9 items:  '
+        'a selection menu for model degree and 2 selection menus for the 2 independent variables, a 2D scatterplot for each independent variable, '
+        'a reactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
+        'for a predicted value, and this description text.  \n'
+        'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
+        'ranging from {miny} to {maxy}. '
+        'The first scatter plot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
+        'The second scatter plot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. ' 
+        'The degree {deg} three-dimensional graph has points (x,y,z) = ({x1name}, {x2name}, MPG) plotted above, on, and below the regression model {mesh}.').format(
+        count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
+        minx2=textInfo[x1name][0], max2=textInfo[x1name][1], shape2=textInfo[x1name][2], deg=degree, mesh=mesh[degree-1]
+        )
 ##################################################################################################
 # Choose the columns
 def setVariables(x1, x2, yvar):
@@ -246,5 +271,5 @@ text_hider = st.checkbox('Hide description')
 if text_hider:
         st.write("")
 else:
-        description = "Description: NEEDS TO BE ALGORITHMIC FROM ABOVE"
+        description = getAltText(x1name, x2name, yname, degree)
         st.write(description)
