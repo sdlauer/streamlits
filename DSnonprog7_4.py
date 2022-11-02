@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.preprocessing import PolynomialFeatures
+# st.set_page_config(layout="wide")
 # hides Streamlit footer and hamburger header 
 hide = '''
         <style>
@@ -17,8 +18,9 @@ hide = '''
         div.block-container {padding-bottom:1rem;}
         thead tr th:first-child {display:none}
         tbody th {display:none}
-        [data-testid=column]:nth-of-type(2)
-        [data-testid=stVerticalBlock]{gap: 0rem;}
+        [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{gap: 1rem;}
+        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 2rem; }
+        }
         #root > div:nth-child(1) > div > div > div > div > section >
         div {padding-top: 1rem;}
         </style>
@@ -41,8 +43,8 @@ varName = ['acceleration','weight','cylinders','displacement','horsepower'] # MP
 ##################################################################################################
 # Set recurrent variables
 yname = 'MPG'
-x1name = varName[0]
-x2name = varName[1]
+# x1name = 'acceleration'
+# x2name = 'weight'
 df = loadData()
 ##################################################################################################
 # Choose the columns
@@ -52,21 +54,17 @@ def setVariables(x1, x2, yvar):
         y = df[[yvar]].values.reshape(-1, 1)
         return (X,y)
 # Store relevant columns as variables
-X, y = setVariables(x1name, x2name, yname)
+# X, y = setVariables(x1name, x2name, yname)
 # Graph xvar vs y
-def twoDscatter(x1name, x2name, yname, indx):  
-        if indx == 0:
-                xname = x1name
-        else:
-                xname = x2name
-        X, y = setVariables(x1name, x2name, yname)     
+def get2Dscatter(x1name, x2name, yname, indx): 
+        xname = [x1name, x2name] 
+        X, y = setVariables(x1name, x2name, yname)
         fig = plt.figure()
-        plt.scatter(df[xname],df[yname],color='black')
-        plt.xlabel(xname.capitalize(),fontsize=45)
-        plt.ylabel(yname.capitalize(),fontsize=45)
-        plt.xticks(fontsize=20)
-        plt.yticks(fontsize=20) 
-        plt.xticks(rotation=45)   
+        plt.scatter(X[:,indx],y, c='k')
+        plt.xlabel(xname[indx].capitalize(),fontsize=35)
+        plt.ylabel(yname.capitalize(),fontsize=35)
+        plt.xticks(fontsize=20,rotation=45)
+        plt.yticks(fontsize=20)   
         # plt.xticks(np.arange(low, high, delta/2))
         return fig
 def linReg(X, y):
@@ -85,34 +83,42 @@ def polynomReg(X, y, deg):
 # Convert a number to a string and set just one sign -- "+ -" goes to "-"
 def checkSign(val):
         if val < 0:
-                return " - " + str(-val)
-        return " + " + str(val)
+                sgn = " - "
+                val = -val
+        else:
+                sgn = " + "
+        if abs(val) < 0.001:
+                num = "{:.3e}".format(abs(val))
+        else:
+                num = round(val,3)      
+        return sgn + str(num)
 # Write the least squares model as an equation
 def getFormula(x1name, x2name, yname ,deg):
+        X, y = setVariables(x1name, x2name, yname)
         if deg == 1:
                 # Get coefficients degree 1
                 linModel = linReg(X, y)
                 a_int = round(linModel.intercept_[0],3)
-                a0 = round(linModel.coef_[0][0],3)
-                a1 = round(linModel.coef_[0][1],3) 
+                a0 = linModel.coef_[0][0]
+                a1 = linModel.coef_[0][1] 
         #Write the polynom regression as an equation          
                 formula_text = '\widehat{\\text{' + yname + '}} = ' + str(a_int) 
-                formula_text += checkSign(a0) + ' * (\\text{' + x1name + '})' +  checkSign(a1) + ' * (\\text{' + x2name + '})'
+                formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})'
         else:
                 # Get coefficients degree 2
                 polyModel = polynomReg(X, y, deg)
                 a_int = round(polyModel.intercept_[0],3)
-                a0 = round(polyModel.coef_[0][0],3)
-                a1 = round(polyModel.coef_[0][1],3)  
-                a2 = round(polyModel.coef_[0][2],3)
-                a3 = round(polyModel.coef_[0][3],3)
-                a4 = round(polyModel.coef_[0][4],3)
+                a0 = polyModel.coef_[0][0]
+                a1 = polyModel.coef_[0][1]  
+                a2 = polyModel.coef_[0][2]
+                a3 = polyModel.coef_[0][3]
+                a4 = polyModel.coef_[0][4]
         # Write the polynom regression as an equation
                 formula_text = '\widehat{\\text{' + yname + '}} = ' + str(a_int)
-                formula_text += checkSign(a0) + ' * (\\text{' + x1name + '})' +  checkSign(a1) + ' * (\\text{' + x2name + '})'
-                formula_text += checkSign(a2) + ' * (\\text{' + x1name + '\\^2})' 
-                formula_text += checkSign(a3) +' * (\\text{' + x1name + '}) * (\\text{' + x2name + '})'
-                formula_text += checkSign(a4) + ' * (\\text{' + x1name + '\\^2})'
+                formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\'
+                formula_text += checkSign(a2) + '(\\text{' + x1name + '})^2' 
+                formula_text += checkSign(a3) +'(\\text{' + x1name + '})(\\text{' + x2name + '})'
+                formula_text += checkSign(a4) + '(\\text{' + x2name + '})^2'
         return formula_text
 # 3D graph
 def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
@@ -158,30 +164,31 @@ def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
         fig.add_trace(go.Mesh3d(x=a, y=b, z=c, color='black', opacity=0.5))
         # Set marker border
         fig.update_traces(
-                marker=dict(size=8, line=dict(width=5, color='darkblue')),
+                marker=dict(size=5, line=dict(width=10, color='darkblue')),
                 selector=dict(mode='markers'))
         # Set angle (tricky to work with)
-        camera = dict(eye=dict(x=1.25, y=1.25, z=.5))
+        camera = dict(eye=dict(x=1.5, y=1.5, z=.1))
         # Set axis names and add the rotation info
         fig.update_layout(
                 scene = dict(
                 xaxis_title= x1name.capitalize(),
                 yaxis_title= x2name.capitalize(),
                 zaxis_title= yname.capitalize()),
-                width=500,
-                height=500,
-                scene_camera=camera
+                # width=600,
+                height=400,
+                scene_camera=camera,
+                margin=dict(l=0, r=100, b=0, t=0)
         )
         return fig
 def predictor(x1name, x2name, yname, deg):
         # Use medians of independent variables to make a prediction statement
+        X,y = setVariables(x1name, x2name, yname)
         # X = df[[x1name,x2name]].values.reshape(-1, 2)
         # y = df[[yname]].values.reshape(-1, 1)
         x1median = round(df[x1name].median(),3)
         x2median = round(df[x2name].median(),3)
         if deg == 1:
-                linModel = LinearRegression()
-                linModel.fit(X,y)
+                linModel = linReg(X, y)
                 yPredicted = linModel.predict([[x1median,x2median]])
         else:
                 polyModel = polynomReg(X, y, deg)
@@ -196,7 +203,7 @@ def predictor(x1name, x2name, yname, deg):
 ########################
 #### Setup streamlit gui
 # Specify order of menu
-
+config = {'displaylogo': False, 'displayModeBar': False}
 col1, col2 = st.columns([1,3])
 with col1:
         ###### Use if model is generalized
@@ -205,27 +212,32 @@ with col1:
         # )  
         # Current dependent variable is 'MPG'
         ######
-        # Select first indendent variable      
-        x1name = st.selectbox(
-                'First independent feature', filter(lambda w: (w != yname), varName)
-        )
-        # Select second indendent variable 
-        st.pyplot(twoDscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True)
-        x2name = st.selectbox(
-                'Second independent feature', filter(lambda w: (w != yname and w != x1name), varName)
-        )  
         # Select degree of model
-        st.pyplot(twoDscatter(x1name, x2name, yname, 1), ignore_streamlit_theme=True)
         degree = st.selectbox(
                 'Model degree', [1, 2] 
-        )  
+        )
+        # Select first indendent variable      
+        x1name = st.selectbox(
+                'First independent feature',  varName
+        )
+
+        # Select second indendent variable 
+       
+        x2name = st.selectbox(
+                'Second independent feature', filter(lambda w:  w != x1name, varName)
+        ) 
+        st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
+        # Graph 2C scatter plots
+        st.pyplot(get2Dscatter(x1name, x2name, yname, 1), ignore_streamlit_theme=True)
+          
 with col2:
+        # Display 3D graph
+        st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config, ignore_streamlit_theme=True)
         # Display regression formula
         st.latex(getFormula(x1name, x2name, yname, degree))
         # Display predictor sentence for median x values
         st.write(predictor(x1name, x2name, yname, degree))
-        # Display 3D graph
-        st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), use_container_width=True,  ignore_streamlit_theme=True)
+       
 # Toggles off the Alt-text box at the bottom of the page -- default is to have text showing
 # altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
 text_hider = st.checkbox('Hide description')
@@ -234,3 +246,6 @@ if text_hider:
 else:
         description = "Description: NEEDS TO BE ALGORITHMIC FROM ABOVE"
         st.write(description)
+# plot_ly() %>%
+#                 config(displaylogo = FALSE)
+#                 config(displayModeBar = FALSE)
