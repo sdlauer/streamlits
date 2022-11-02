@@ -19,7 +19,7 @@ hide = '''
         thead tr th:first-child {display:none}
         tbody th {display:none}
         [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{gap: 1rem;}
-        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 2rem; }
+        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 0rem; }
         }
         #root > div:nth-child(1) > div > div > div > div > section >
         div {padding-top: 1rem;}
@@ -83,10 +83,10 @@ def polynomReg(X, y, deg):
 # Convert a number to a string and set just one sign -- "+ -" goes to "-"
 def checkSign(val):
         if val < 0:
-                sgn = " - "
+                sgn = " - \\,"
                 val = -val
         else:
-                sgn = " + "
+                sgn = " + \\, "
         if abs(val) < 0.001:
                 num = "{:.3e}".format(abs(val))
                 num = str(num.replace('-0','-').replace('e0','e'))
@@ -104,8 +104,8 @@ def getFormula(x1name, x2name, yname ,deg):
                 a0 = linModel.coef_[0][0]
                 a1 = linModel.coef_[0][1] 
         #Write the polynom regression as an equation          
-                formula_text = '\widehat{\\text{' + yname + '}} = ' + str(a_int) 
-                formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})'
+                formula_text = '\\\\\,\\\\\,\\\\\,\\widehat{\\text{' + yname + '}} = ' + str(a_int) 
+                formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\\,\\\\\,'
         else:
                 # Get coefficients degree 2
                 polyModel = polynomReg(X, y, deg)
@@ -116,11 +116,13 @@ def getFormula(x1name, x2name, yname ,deg):
                 a3 = polyModel.coef_[0][3]
                 a4 = polyModel.coef_[0][4]
         # Write the polynom regression as an equation
-                formula_text = '\widehat{\\text{' + yname + '}} = ' + str(a_int)
+                formula_text = '\\begin{align*}'
+                formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int)
                 formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\'
-                formula_text += checkSign(a2) + '(\\text{' + x1name + '})^2' 
-                formula_text += checkSign(a3) +'(\\text{' + x1name + '})(\\text{' + x2name + '})'
-                formula_text += checkSign(a4) + '(\\text{' + x2name + '})^2'
+                formula_text += ' & ' + checkSign(a2) + '(\\text{' + x1name + '})^2\\\\' 
+                formula_text += ' & ' + checkSign(a3) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
+                formula_text += ' & ' + checkSign(a4) + '(\\text{' + x2name + '})^2'
+                formula_text += '\\end{align*}'
         return formula_text
 # 3D graph
 def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
