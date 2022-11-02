@@ -69,7 +69,7 @@ def getAltText(x1name, x2name, yname, degree):
         'The second scatter plot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. ' 
         'The degree {deg} three-dimensional graph has points (x,y,z) = ({x1name}, {x2name}, MPG) plotted above, on, and below the regression model {mesh}.').format(
         count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
-        minx2=textInfo[x1name][0], max2=textInfo[x1name][1], shape2=textInfo[x1name][2], deg=degree, mesh=mesh[degree-1]
+        minx2=textInfo[x2name][0], max2=textInfo[x2name][1], shape2=textInfo[x2name][2], deg=degree, mesh=mesh[degree-1]
         )
 ##################################################################################################
 # Choose the columns
