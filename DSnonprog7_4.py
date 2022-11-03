@@ -43,25 +43,28 @@ varName = ['acceleration','weight','cylinders','displacement','horsepower'] # MP
 # Set recurrent variables
 yname = 'MPG'
 df = loadData()
-maxs = df.max()
-mins = df.min()
-miny = mins[0]
-maxy = maxs[0]
+# maxs = df.max()
+# mins = df.min()
+# miny = mins[0]
+# maxy = maxs[0]
+miny = 9
+maxy = 47
+
 numDataPts = df['MPG'].count()
-print(maxs, mins, numDataPts)
+# print(maxs, mins, numDataPts)
 textInfo = {
-        'acceleration': [df[varName[0]].min(), df[varName[0]].max(), 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
-        'weight': [df[varName[1]].min(), df[varName[1]].max(), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
-        'cylinders': [df[varName[2]].min(), df[varName[2]].max(), 'The points are in vertical bands above 3, 4, 5, 6, and 8 cylinders with no points plotted between the bands'],
-        'displacement': [df[varName[3]].min(), df[varName[3]].max(), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
+        'acceleration': [8, 25, 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
+        'weight': [600, 5,200, 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
+        'cylinders': [3, 8, 'The points are in vertical bands above 3, 4, 5, 6, and 8 cylinders with no points plotted between the bands'],
+        'displacement': [65, 455, 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
                 'with some vertical banding stripes at higher displacement levels'],
-        'horsepower': [df[varName[4]].min(), df[varName[4]].max(), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
+        'horsepower': [45,230, 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
                 'with some vertical banding stripes in the middle of the range']}
 mesh = ['plane', 'quadratic surface']
 def getAltText(x1name, x2name, yname, degree):
         return ('The scene contains 9 items:  '
         'a selection menu for model degree and 2 selection menus for the 2 independent variables, a 2D scatterplot for each independent variable, '
-        'a reactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
+        'an interactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
         'for a predicted value, and this description text.  \n'
         'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
         'ranging from {miny} to {maxy}. '
@@ -85,11 +88,15 @@ def get2Dscatter(x1name, x2name, yname, indx):
         xname = [x1name, x2name] 
         X, y = setVariables(x1name, x2name, yname)
         fig = plt.figure()
+        # locx, labelsx = plt.xticks()
+        # print(locx)
         plt.scatter(X[:,indx],y, c='k')
         plt.xlabel(xname[indx].capitalize(),fontsize=35)
         plt.ylabel(yname.capitalize(),fontsize=35)
         plt.xticks(fontsize=20,rotation=45)
         plt.yticks(fontsize=20)   
+        locx, labelsx = plt.xticks()
+        print(locx)
         # plt.xticks(np.arange(low, high, delta/2))
         return fig
 def linReg(X, y):
