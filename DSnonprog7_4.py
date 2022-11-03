@@ -63,7 +63,7 @@ textInfo = {
 mesh = ['plane', 'quadratic surface']
 def getAltText(x1name, x2name, yname, degree):
         return ('The scene contains 9 items:  '
-        'a selection menu for model degree and 2 selection menus for the 2 independent variables, a 2D scatterplot for each independent variable, '
+        'a selection menu for model degree, 2 selection menus for the 2 independent variables, a 2D scatterplot for each independent variable, '
         'an interactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
         'for a predicted value, and this description text.  \n'
         'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
