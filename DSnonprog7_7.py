@@ -16,8 +16,8 @@ hide = '''
         div.block-container {padding-bottom:1rem;}
         thead tr th:first-child {display:none}
         tbody th {display:none}
-        [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{gap: 1rem;}
-        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 0rem; }
+        # [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{gap: 1rem;}
+        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 1rem;}
         }
         #root > div:nth-child(1) > div > div > div > div > section >
         div {padding-top: 1rem;}
@@ -31,92 +31,99 @@ st.markdown(hide, unsafe_allow_html=True)
 # Get the dataset -- this section is specific to the dataset loaded.  
 # All other code is dependent on this dataframe definition
 def loadData():
-        df = pd.read_csv('credit_score', 'age', 'tenure', 'balance', 'products_number', 'estimated_salary', 'churn')
+        df = pd.read_csv('customer_churn.csv', usecols=['churn', 'products_number','credit_score', 'age', 'tenure', 'balance', 'estimated_salary'])
         df.groupby(by='churn').size()   
         return df
-cols = ['credit_score', 'age', 'tenure', 'balance', 'products_number', 'estimated_salary', 'churn']
-colLabels = ['Credit score', 'Age', 'Tenure', 'Balance', 'Number of products', 'Estimated salary', 'Customer churn']
-p = sns.countplot(data=customer_churn, x='churn')
-p.set_xlabel('Customer churn', fontsize=14)
-p.set_ylabel('Count', fontsize=14)
-plt.show()
-p = sns.boxplot(data=customer_churn, x='churn', y='credit_score')
-p.set_ylabel('Credit score', fontsize=14)
-p.set_xlabel('Customer churn', fontsize=14)
-plt.show()
-p = sns.boxplot(data=customer_churn, x='churn', y='tenure')
-p.set_ylabel('Tenure', fontsize=14)
-p.set_xlabel('Customer churn', fontsize=14)
-plt.show()
-p = sns.boxplot(data=customer_churn, x='churn', y='age')
-p.set_ylabel('Age', fontsize=14)
-p.set_xlabel('Customer churn', fontsize=14)
-plt.show()
-p = sns.countplot(data=customer_churn, x='products_number', 
-                  hue='churn')
-p.set_xlabel('Number of products', fontsize=14)
-p.set_ylabel('Count', fontsize=14)
-plt.show()
-################
-p = sns.scatterplot(data=customer_churn, x='age', y='churn', 
-                    alpha=0.5)
-p.set_xlabel('Age', fontsize=14)
-p.set_ylabel('Churn (1=yes, 0=no)', fontsize=14)
-plt.show()
+df = loadData()
+#####################
+varName = ['churn', 'products_number','credit_score', 'age', 'tenure', 'balance', 'estimated_salary']
+colLabels = ['Customer churn', 'Number of products', 'Credit score', 'Age', 'Tenure', 'Balance', 'Estimated salary']
+colDict = {'Customer churn': varName[0], 'Number of products': varName[1], 'Credit score': varName[2], 'Age': varName[3], 'Tenure': varName[4], 'Balance': varName[5], 'Estimated salary': varName[6]}
 
-# Fit regression model and print coefficients
-X = customer_churn[['age']].values.reshape(-1, 1)
-y = customer_churn[['churn']].values.reshape(-1, 1).astype(int)
+def getPlot(xLabel):
+        xname = colDict[xLabel]
+        fig = plt.figure()
+        fig.set_size_inches(3.5, 2)
+        # p = sns.countplot(data=df, x =xname) #'churn') 
+        if xname in ['churn', 'products_number']:
+                if xname == 'churn':
+                        p = sns.countplot(data=df, x=xname)
+                else:
+                        p = sns.countplot(data=df, x=xname, hue='churn')
+                p.set_ylabel(xLabel, fontsize=16)
+                p.set_xlabel( 'Count', fontsize=16)
+        else:
+                p = sns.boxplot(data=df, x='churn', y=xname) #'credit_score','tenure','age')
 
-logisticModel = LogisticRegression()
-logisticModel.fit(X,np.ravel(y.astype(int)))
+                p.set_ylabel(xLabel, fontsize=16)
+                p.set_xlabel('Customer churn', fontsize=16)
+        return fig
 
-print('Slope coefficient:', logisticModel.coef_)
-print('Intercept coefficient:', logisticModel.intercept_)
+# plt.show()
+# ################
+def getLogisticGraph(xLabel):
+        fig = plt.figure()
+        fig.set_size_inches(3,3)
+        xcolname = colDict[xLabel]
+        p = sns.scatterplot(data=df, x=xcolname, y='churn', 
+                        alpha=0.5)
+        # p.set_xlabel('Age\nother stuff', fontsize=30)
+        # p.set_ylabel('Churn (1=yes, 0=no)', fontsize=30)
+        # plt.show()
 
-# Plot fitted logistic regression model
-p = sns.regplot(data=customer_churn, x='age', y='churn',
-                logistic=True, ci=False, 
-                scatter_kws={'alpha': 0.5},
-                line_kws={'color': 'black'})
-p.set_xlabel('Age', fontsize=14)
-p.set_ylabel('Churn (1=yes, 0=no)', fontsize=14)
-plt.show()
+        # Fit regression model and print coefficients
+        X = df[[xcolname]].values.reshape(-1, 1)
+        y = df[['churn']].values.reshape(-1, 1).astype(int)
 
-################
-X = customer_churn[['balance', 'age', 'credit_score']].values.reshape(-1, 3)
-y = customer_churn[['churn']].values.reshape(-1, 1).astype(int)
+        logisticModel = LogisticRegression()
+        logisticModel.fit(X,np.ravel(y.astype(int)))
 
-logisticModel = LogisticRegression()
-logisticModel.fit(X,np.ravel(y.astype(int)))
+        # print('Slope coefficient:', logisticModel.coef_)
+        # print('Intercept coefficient:', logisticModel.intercept_)
 
-print('Slope coefficient:', logisticModel.coef_)
-print('Intercept coefficient:', logisticModel.intercept_)
+        # Plot fitted logistic regression model
+        p = sns.regplot(data=df, x='age', y='churn',
+                        logistic=True, ci=False, 
+                        scatter_kws={'alpha': 0.5},
+                        line_kws={'color': 'black'})
+        p.set_xlabel(xLabel, fontsize=16)
+        p.set_ylabel('Churn (1=yes, 0=no)', fontsize=16)
+        plt.savefig("images7_7/logReg_" + str(xname) + ".png")
+        return fig
 
-# Make predictions using logistic regression
-print(logisticModel.predict_proba([[10000, 21, 650]]))
+# ################
+def getLogisticInfo(x1Label, x2Label):
+        x1name = colDict[x1Label]
+        x2name = colDict[x2Label]
+        X = df[[x1name, x2name]].values.reshape(-1, 2)
+        y = df[['churn']].values.reshape(-1, 1).astype(int)
 
-# plt.subplot(rows, columns, plot index)
-plt.rcParams["figure.figsize"] = (15,6)
+        logisticModel = LogisticRegression()
+        logisticModel.fit(X,np.ravel(y.astype(int)))
 
-plt.subplot(1, 3, 1)
-p = sns.scatterplot(data=customer_churn, x='balance', y='age', 
-                    hue='churn', alpha=0.5)
-p.set_xlabel('Balance', fontsize=14)
-p.set_ylabel('Age', fontsize=14)
+        info = 'Slope coefficients:', logisticModel.coef_
+        info += '\nIntercept coefficient:', logisticModel.intercept_
+        x1median = round(df[x1name].median(),3)
+        x2median = round(df[x2name].median(),3)
+        # Make predictions using logistic regression
+        arr = logisticModel.predict_proba([[x1median, x2median]])
+        info += '\n\nLogistic regression customer churn prediction with ' +str(x1Label.lower()) + ' and ' + str(x2Label.lower())
+        # info += 'Slope coefficients = ' + str(logisticModel.coef_)
+        # info += 'at median values: \nslope = ' + str(arr[0]) + ', intercept = ' + str(arr[1])
+        print(info)
+        return info
 
-plt.subplot(1, 3, 2)
-p = sns.scatterplot(data=customer_churn, x='balance', y='credit_score', 
-                    hue='churn', alpha=0.5)
-p.set_ylabel('Balance', fontsize=14)
-p.set_xlabel('Credit score', fontsize=14)
-
-plt.subplot(1, 3, 3)
-p = sns.scatterplot(data=customer_churn, x='age', y='credit_score',
-                  hue='churn', alpha=0.5)
-p.set_xlabel('Age', fontsize=14)
-p.set_ylabel('Credit score', fontsize=14)
-plt.show()
+def getScatter(xLabel, yLabel):     
+        xname = colDict[xLabel]
+        yname = colDict[yLabel]
+        fig = plt.figure()
+        fig.set_size_inches(5,7)
+        p = sns.scatterplot(data=df, x=xname, y=yname, 
+                        hue='churn', alpha=0.5)
+        p.set_xlabel(xLabel, fontsize=22)
+        p.set_ylabel(yLabel, fontsize=22)
+        plt.xticks(fontsize=20,rotation=45)
+        return fig
 ###############
 
 numDataPts = df['churn'].count()
@@ -126,8 +133,9 @@ numDataPts = df['churn'].count()
 
 
 def assorted():
+    hmm = 0
 # Set recurrent variables
-    df = loadData()
+
 # maxs = df.max()
 # mins = df.min()
 # miny = mins[0]
@@ -161,45 +169,34 @@ def assorted():
 #         )
 
     return
-
-
-        col1, col2 = st.columns([1,3])
+# xname = colLabels[0]
+# yname = colLabels[1]
+col1, col2, col3 = st.columns([3,4,4])
 with col1:
-        ###### Use if model is generalized to using all variables for y
-        # yname = st.selectbox(
-        # 'Dependent feature', varName 
-        # )  
-        # Current dependent variable is 'MPG'
         ######
-        # Select degree of model
-        degree = st.selectbox(
-                'First customer feature', [] 
+        # Select customer feature
+        xname = st.selectbox(
+                'First customer feature', colLabels 
         )
-        # Select first indendent variable      
-        x1name = st.selectbox(
-                'First independent feature',  varName # add lambda filter including yname if generalized
-        )
-        # Select second indendent variable     
-        x2name = st.selectbox(
-                'Second independent feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
-        ) 
-        st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
-        # Graph 2C scatter plots
-        st.pyplot(get2Dscatter(x1name, x2name, yname, 1), ignore_streamlit_theme=True)
-          
+        # Plot boxplot or histogram for second feature    
+        st.pyplot(getPlot(xname))#, ignore_streamlit_theme=True)
+        st.pyplot(getLogisticGraph(xname))
 with col2:
-        # Display 3D graph
-        st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config, ignore_streamlit_theme=True)
-        # Display regression formula
-        st.latex(getFormula(x1name, x2name, yname, degree))
-        # Display predictor sentence for median x values
-        st.write(predictor(x1name, x2name, yname, degree))
-       
+        # Select second feature 
+        yname = st.selectbox(
+                'Second customer feature', filter(lambda w:  w != xname, colLabels)
+        )
+        # Plot boxplot or histogram for second feature
+        st.pyplot(getPlot(yname))#, ignore_streamlit_theme=True)  
+        st.pyplot(getLogisticGraph(yname))
+with col3:
+        st.pyplot(getScatter(xname, yname))#, ignore_streamlit_theme=True)    
+        st.write(getLogisticInfo(xname, yname))
 # Toggles off the Alt-text box at the bottom of the page -- default is to have text showing
-# altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
+# altText for ['Customer churn', 'Number of products', 'Credit score', 'Age', 'Tenure', 'Balance', 'Estimated salary']
 text_hider = st.checkbox('Hide description')
 if text_hider:
         st.write("")
 else:
-        description = getAltText(x1name, x2name, yname, degree)
+        description = "TODO"# getAltText(xname, yname)
         st.write(description)

@@ -51,7 +51,7 @@ miny = 9
 maxy = 47
 
 numDataPts = df['MPG'].count()
-# print(maxs, mins, numDataPts)
+
 textInfo = {
         'acceleration': [8, 25, 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
         'weight': [600, 5,200, 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
@@ -62,18 +62,31 @@ textInfo = {
                 'with some vertical banding stripes in the middle of the range']}
 mesh = ['plane', 'quadratic surface']
 def getAltText(x1name, x2name, yname, degree):
-        return ('The scene contains 9 items:  '
-        'a selection menu for model degree, 2 selection menus for the 2 independent variables, a 2D scatterplot for each independent variable, '
-        'an interactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
-        'for a predicted value, and this description text.  \n'
+        formula = getFormula(x1name, x2name, yname, degree, 'text')
+        yprediction = predictor(x1name, x2name, yname, degree)
+        return ('The dependent variable is MPG, and the two independent variables are {x1name} and {x2name}.\n'
         'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
-        'ranging from {miny} to {maxy}. '
-        'The first scatter plot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
-        'The second scatter plot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. ' 
-        'The degree {deg} three-dimensional graph has points (x,y,z) = ({x1name}, {x2name}, MPG) plotted above, on, and below the regression model {mesh}.').format(
+        'ranging from {miny} to {maxy}. \n\n'
+        'The first 2D scatterplot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
+        'The second 2D scatterplot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. \n' 
+        'The degree {deg} three-dimensional interactive scatterplot has points (x,y,z) = ({x1name}, {x2name}, MPG) '
+        'plotted above, on, and below the regression model {mesh}.\n\n'
+        'Description:  The MPG prediction equation is {form}. '
+        'The medians of each independent variable are used to calculate a predicted value.  {ypred} ').format(ypred= yprediction, form=formula,
         count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
         minx2=textInfo[x2name][0], max2=textInfo[x2name][1], shape2=textInfo[x2name][2], deg=degree, mesh=mesh[degree-1]
         )
+        # return ('The scene contains a 2D scatterplot for each independent variable, '
+        # 'an interactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
+        # 'for a predicted value, and this description text.  \n'
+        # 'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
+        # 'ranging from {miny} to {maxy}. '
+        # 'The first scatter plot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
+        # 'The second scatter plot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. ' 
+        # 'The degree {deg} three-dimensional graph has points (x,y,z) = ({x1name}, {x2name}, MPG) plotted above, on, and below the regression model {mesh}.').format(
+        # count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
+        # minx2=textInfo[x2name][0], max2=textInfo[x2name][1], shape2=textInfo[x2name][2], deg=degree, mesh=mesh[degree-1]
+        # )
 ##################################################################################################
 # Choose the columns
 def setVariables(x1, x2, yvar):
@@ -89,15 +102,12 @@ def get2Dscatter(x1name, x2name, yname, indx):
         X, y = setVariables(x1name, x2name, yname)
         fig = plt.figure()
         # locx, labelsx = plt.xticks()
-        # print(locx)
         plt.scatter(X[:,indx],y, c='k')
         plt.xlabel(xname[indx].capitalize(),fontsize=35)
         plt.ylabel(yname.capitalize(),fontsize=35)
         plt.xticks(fontsize=20,rotation=45)
         plt.yticks(fontsize=20)   
-        locx, labelsx = plt.xticks()
-        print(locx)
-        # plt.xticks(np.arange(low, high, delta/2))
+
         return fig
 def linReg(X, y):
         linModel = LinearRegression()
@@ -127,7 +137,7 @@ def checkSign(val):
                 num = round(val,3)      
         return sgn + str(num)
 # Write the least squares model as an equation
-def getFormula(x1name, x2name, yname ,deg):
+def getFormula(x1name, x2name, yname, deg, choice):
         X, y = setVariables(x1name, x2name, yname)
         if deg == 1:
                 # Get coefficients degree 1
@@ -135,9 +145,14 @@ def getFormula(x1name, x2name, yname ,deg):
                 a_int = round(linModel.intercept_[0],3)
                 a0 = linModel.coef_[0][0]
                 a1 = linModel.coef_[0][1] 
-        #Write the polynom regression as an equation          
-                formula_text = '\\\\\,\\\\\,\\\\\,\\widehat{\\text{' + yname + '}} = ' + str(a_int) 
-                formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\\,\\\\\,'
+                if choice == 'text':
+                        formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) 
+                        formula_text += checkSign(a0) + '(' + x1name + ')' +  checkSign(a1) + '(' + x2name + ')'
+
+                else:
+                        #Write the polynom regression as an equation          
+                        formula_text = '\\\\\,\\\\\,\\\\\,\\widehat{\\text{' + yname + '}} = ' + str(a_int) 
+                        formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\\,\\\\\,'
         else:
                 # Get coefficients degree 2
                 polyModel = polynomReg(X, y, deg)
@@ -148,13 +163,18 @@ def getFormula(x1name, x2name, yname ,deg):
                 a3 = polyModel.coef_[0][3]
                 a4 = polyModel.coef_[0][4]
         # Write the polynom regression as an equation
-                formula_text = '\\begin{align*}'
-                formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int)
-                formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\'
-                formula_text += ' & ' + checkSign(a2) + '(\\text{' + x1name + '})^2\\\\' 
-                formula_text += ' & ' + checkSign(a3) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
-                formula_text += ' & ' + checkSign(a4) + '(\\text{' + x2name + '})^2'
-                formula_text += '\\end{align*}'
+                if choice == 'text':
+                        formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) + checkSign(a0) + '(' + x1name + ') ' +  checkSign(a1) + '(' + x2name + ')'
+                        formula_text += checkSign(a2) + '(' + x1name + ')^2' + checkSign(a3) +'(' + x1name + ')(' + x2name + ')'
+                        formula_text += checkSign(a4) + '(' + x2name + ')^2'
+                else:
+                        formula_text = '\\begin{align*}'
+                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int)
+                        formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\'
+                        formula_text += ' & ' + checkSign(a2) + '(\\text{' + x1name + '})^2\\\\' 
+                        formula_text += ' & ' + checkSign(a3) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
+                        formula_text += ' & ' + checkSign(a4) + '(\\text{' + x2name + '})^2'
+                        formula_text += '\\end{align*}'
         return formula_text
 # 3D graph
 def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
@@ -238,45 +258,60 @@ def predictor(x1name, x2name, yname, deg):
 
 ########################
 #### Setup streamlit gui
+x1name = varName[0]
+x2name = varName[1]
 # Specify order of menu
 config = {'displaylogo': False, 'displayModeBar': False}
-col1, col2 = st.columns([1,3])
-with col1:
-        ###### Use if model is generalized to using all variables for y
-        # yname = st.selectbox(
-        # 'Dependent feature', varName 
-        # )  
-        # Current dependent variable is 'MPG'
-        ######
-        # Select degree of model
-        degree = st.selectbox(
-                'Model degree', [1, 2] 
-        )
-        # Select first indendent variable      
-        x1name = st.selectbox(
-                'First independent feature',  varName # add lambda filter including yname if generalized
-        )
-        # Select second indendent variable     
-        x2name = st.selectbox(
-                'Second independent feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
-        ) 
-        st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
-        # Graph 2C scatter plots
-        st.pyplot(get2Dscatter(x1name, x2name, yname, 1), ignore_streamlit_theme=True)
-          
-with col2:
-        # Display 3D graph
-        st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config, ignore_streamlit_theme=True)
-        # Display regression formula
-        st.latex(getFormula(x1name, x2name, yname, degree))
-        # Display predictor sentence for median x values
-        st.write(predictor(x1name, x2name, yname, degree))
-       
-# Toggles off the Alt-text box at the bottom of the page -- default is to have text showing
-# altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
-text_hider = st.checkbox('Hide description')
-if text_hider:
-        st.write("")
-else:
-        description = getAltText(x1name, x2name, yname, degree)
-        st.write(description)
+tab1, tab2 = st.tabs(['Scatterplots', 'Description'])
+with tab1:
+        col1, col2 = st.columns([1,3])
+        with col1:
+                ###### Use if model is generalized to using all variables for y
+                # yname = st.selectbox(
+                # 'Dependent feature', varName 
+                # )  
+                # Current dependent variable is 'MPG'
+                ######
+                # Select degree of model
+                degree = st.selectbox(
+                        'Model degree', [1, 2] 
+                )
+                # Select first indendent variable      
+                x1name = st.selectbox(
+                        'First independent feature',  varName # add lambda filter including yname if generalized
+                )
+                # Select second indendent variable     
+                x2name = st.selectbox(
+                        'Second independent feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
+                ) 
+                st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
+                # Graph 2C scatter plots
+                st.pyplot(get2Dscatter(x1name, x2name, yname, 1), ignore_streamlit_theme=True)
+                
+        with col2:
+                # Display 3D graph
+                st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config, ignore_streamlit_theme=True)
+                # Display regression formula
+                st.latex(getFormula(x1name, x2name, yname, degree, 'LaTeX'))
+                # Display predictor sentence for median x values
+                st.write(predictor(x1name, x2name, yname, degree))
+        
+with tab2: # for alt-text users
+        col1a, col2a = st.columns([1,3])
+        with col1a:
+                # Select degree of model
+                degreea = st.selectbox(
+                        'Model degree:', [1, 2] 
+                )
+                # Select first indendent variable      
+                x1namea = st.selectbox(
+                        'First independent feature:',  varName # add lambda filter including yname if generalized
+                )
+                # Select second indendent variable     
+                x2namea = st.selectbox(
+                        'Second independent feature:', filter(lambda w:  w != x1namea, varName)# include yname if generalized 
+                ) 
+        with col2a:
+                # altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
+                descriptiona = getAltText(x1namea, x2namea, yname, degreea)
+                st.write(descriptiona)
