@@ -54,7 +54,7 @@ numDataPts = df['MPG'].count()
 
 textInfo = {
         'acceleration': [8, 25, 'The points are spread out, but mostly in a cluster in the middle with a smaller cluster in the lower left'],  
-        'weight': [600, 5,200, 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
+        'weight': [600, str(5) +','+ str(200), 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right'],
         'cylinders': [3, 8, 'The points are in vertical bands above 3, 4, 5, 6, and 8 cylinders with no points plotted between the bands'],
         'displacement': [65, 455, 'The points are in a concave up, crescent-shaped area from the upper left decreasing to the lower right '
                 'with some vertical banding stripes at higher displacement levels'],
@@ -69,10 +69,10 @@ def getAltText(x1name, x2name, yname, degree):
         'ranging from {miny} to {maxy}. \n\n'
         'The first 2D scatterplot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
         'The second 2D scatterplot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. \n' 
-        'The degree {deg} three-dimensional interactive scatterplot has points (x,y,z) = ({x1name}, {x2name}, MPG) '
+        '\nThe degree {deg} three-dimensional interactive scatterplot has points \n(x,y,z) = ({x1name}, {x2name}, MPG) '
         'plotted above, on, and below the regression model {mesh}.\n\n'
-        'Description:  The MPG prediction equation is {form}. '
-        'The medians of each independent variable are used to calculate a predicted value.  {ypred} ').format(ypred= yprediction, form=formula,
+        'Description:\n  The MPG prediction equation is \n {form}. '
+        '\nThe medians of each independent variable are used to calculate a predicted value. \n {ypred} ').format(ypred= yprediction, form=formula,
         count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
         minx2=textInfo[x2name][0], max2=textInfo[x2name][1], shape2=textInfo[x2name][2], deg=degree, mesh=mesh[degree-1]
         )
@@ -123,15 +123,23 @@ def polynomReg(X, y, deg):
         polyModel.fit(xpoly,y)
         return polyModel
 # Convert a number to a string and set just one sign -- "+ -" goes to "-"
-def checkSign(val):
+def checkSign(val, txt):
         if val < 0:
-                sgn = " - \\,"
+                if txt == 'text':
+                        sgn = ' - '
+                else:
+                        sgn = " - \\,"
                 val = -val
         else:
-                sgn = " + \\, "
+                if txt == 'text':
+                        sgn = ' + '
+                else: 
+                        sgn = " + \\, "
         if abs(val) < 0.001:
                 num = "{:.3e}".format(abs(val))
                 num = str(num.replace('-0','-').replace('e0','e'))
+                if txt == 'text':
+                        num = num[:5] + ' times 10 to the power of ' + num[6:] 
                 num = num[:5] + '\\times 10^{' + num[6:] + '}'
         else:
                 num = round(val,3)      
@@ -147,12 +155,12 @@ def getFormula(x1name, x2name, yname, deg, choice):
                 a1 = linModel.coef_[0][1] 
                 if choice == 'text':
                         formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) 
-                        formula_text += checkSign(a0) + '(' + x1name + ')' +  checkSign(a1) + '(' + x2name + ')'
+                        formula_text += checkSign(a0, choice) + '(' + x1name + ')' +  checkSign(a1, choice) + '(' + x2name + ')'
 
                 else:
                         #Write the polynom regression as an equation          
-                        formula_text = '\\\\\,\\\\\,\\\\\,\\widehat{\\text{' + yname + '}} = ' + str(a_int) 
-                        formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\\,\\\\\,'
+                        formula_text = '\\\\\,\\\\\,\\widehat{\\text{' + yname + '}} = ' + str(a_int) 
+                        formula_text += checkSign(a0, choice) + '(\\text{' + x1name + '})' +  checkSign(a1, choice) + '(\\text{' + x2name + '})\\\\\,\\\\\,'
         else:
                 # Get coefficients degree 2
                 polyModel = polynomReg(X, y, deg)
@@ -165,15 +173,15 @@ def getFormula(x1name, x2name, yname, deg, choice):
         # Write the polynom regression as an equation
                 if choice == 'text':
                         formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) + checkSign(a0) + '(' + x1name + ') ' +  checkSign(a1) + '(' + x2name + ')'
-                        formula_text += checkSign(a2) + '(' + x1name + ')^2' + checkSign(a3) +'(' + x1name + ')(' + x2name + ')'
-                        formula_text += checkSign(a4) + '(' + x2name + ')^2'
+                        formula_text += checkSign(a2, choice) + '(' + x1name + ')^2' + checkSign(a3) +'(' + x1name + ')(' + x2name + ')'
+                        formula_text += checkSign(a4, choice) + '(' + x2name + ')^2'
                 else:
                         formula_text = '\\begin{align*}'
-                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int)
-                        formula_text += checkSign(a0) + '(\\text{' + x1name + '})' +  checkSign(a1) + '(\\text{' + x2name + '})\\\\'
-                        formula_text += ' & ' + checkSign(a2) + '(\\text{' + x1name + '})^2\\\\' 
-                        formula_text += ' & ' + checkSign(a3) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
-                        formula_text += ' & ' + checkSign(a4) + '(\\text{' + x2name + '})^2'
+                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int, choice)
+                        formula_text += checkSign(a0, choice) + '(\\text{' + x1name + '})' +  checkSign(a1, choice) + '(\\text{' + x2name + '})\\\\'
+                        formula_text += ' & ' + checkSign(a2, choice) + '(\\text{' + x1name + '})^2\\\\' 
+                        formula_text += ' & ' + checkSign(a3, choice) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
+                        formula_text += ' & ' + checkSign(a4, choice) + '(\\text{' + x2name + '})^2'
                         formula_text += '\\end{align*}'
         return formula_text
 # 3D graph
@@ -292,6 +300,7 @@ with tab1:
                 # Display 3D graph
                 st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config, ignore_streamlit_theme=True)
                 # Display regression formula
+                st.write('Description')
                 st.latex(getFormula(x1name, x2name, yname, degree, 'LaTeX'))
                 # Display predictor sentence for median x values
                 st.write(predictor(x1name, x2name, yname, degree))
