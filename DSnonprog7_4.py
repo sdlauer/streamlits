@@ -223,7 +223,7 @@ def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
 # Set up and draw the background grid
         fig = go.Figure()
 # Draw a 3D scatterplot of data points
-        ig.add_trace(go.Scatter3d(name='point', x=df[x1name], y=df[x2name], z=df[yname], mode='markers'))
+        fig.add_trace(go.Scatter3d(name='point', x=df[x1name], y=df[x2name], z=df[yname], mode='markers'))
 # Draw the 3D surface mesh
         fig.add_trace(go.Mesh3d(name='surface',x=a, y=b, z=c, color='black', opacity=0.5))
         # Set marker border
