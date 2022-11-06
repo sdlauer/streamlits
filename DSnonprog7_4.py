@@ -71,7 +71,7 @@ def getAltText(x1name, x2name, yname, degree):
         'The second 2D scatterplot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. \n' 
         '\nThe degree {deg} three-dimensional interactive scatterplot has points \n(x,y,z) = ({x1name}, {x2name}, MPG) '
         'plotted above, on, and below the regression model {mesh}.\n\n'
-        'Description:\n  The MPG prediction equation is \n {form}. '
+        'Description:  The MPG prediction equation is \n {form}. '
         '\nThe medians of each independent variable are used to calculate a predicted value. \n {ypred} ').format(ypred= yprediction, form=formula,
         count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
         minx2=textInfo[x2name][0], max2=textInfo[x2name][1], shape2=textInfo[x2name][2], deg=degree, mesh=mesh[degree-1]
@@ -223,9 +223,9 @@ def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
 # Set up and draw the background grid
         fig = go.Figure()
 # Draw a 3D scatterplot of data points
-        fig.add_trace(go.Scatter3d(x=df[x1name], y=df[x2name], z=df[yname], mode='markers'))
+        ig.add_trace(go.Scatter3d(name='point', x=df[x1name], y=df[x2name], z=df[yname], mode='markers'))
 # Draw the 3D surface mesh
-        fig.add_trace(go.Mesh3d(x=a, y=b, z=c, color='black', opacity=0.5))
+        fig.add_trace(go.Mesh3d(name='surface',x=a, y=b, z=c, color='black', opacity=0.5))
         # Set marker border
         fig.update_traces(
                 marker=dict(size=5, line=dict(width=10, color='darkblue')),
