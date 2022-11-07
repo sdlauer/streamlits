@@ -172,12 +172,12 @@ def getFormula(x1name, x2name, yname, deg, choice):
                 a4 = polyModel.coef_[0][4]
         # Write the polynom regression as an equation
                 if choice == 'text':
-                        formula_text = 'widehat ' +  yname  + ' = '+ checkSign(a_int,choice) + checkSign(a0, choice) + '(' + x1name + ') ' +  checkSign(a1, choice) + '(' + x2name + ')'
+                        formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) + checkSign(a0, choice) + '(' + x1name + ') ' +  checkSign(a1, choice) + '(' + x2name + ')'
                         formula_text += checkSign(a2, choice) + '(' + x1name + ')^2' + checkSign(a3) +'(' + x1name + ')(' + x2name + ')'
                         formula_text += checkSign(a4, choice) + '(' + x2name + ')^2'
                 else:
                         formula_text = '\\begin{align*}'
-                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + checkSign(a_int, choice)
+                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int)
                         formula_text += checkSign(a0, choice) + '(\\text{' + x1name + '})' +  checkSign(a1, choice) + '(\\text{' + x2name + '})\\\\'
                         formula_text += ' & ' + checkSign(a2, choice) + '(\\text{' + x1name + '})^2\\\\' 
                         formula_text += ' & ' + checkSign(a3, choice) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
