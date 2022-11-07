@@ -173,7 +173,7 @@ def getFormula(x1name, x2name, yname, deg, choice):
         # Write the polynom regression as an equation
                 if choice == 'text':
                         formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) + checkSign(a0, choice) + '(' + x1name + ') ' +  checkSign(a1, choice) + '(' + x2name + ')'
-                        formula_text += checkSign(a2, choice) + '(' + x1name + ')^2' + checkSign(a3) +'(' + x1name + ')(' + x2name + ')'
+                        formula_text += checkSign(a2, choice) + '(' + x1name + ')^2' + checkSign(a3,choice) +'(' + x1name + ')(' + x2name + ')'
                         formula_text += checkSign(a4, choice) + '(' + x2name + ')^2'
                 else:
                         formula_text = '\\begin{align*}'
