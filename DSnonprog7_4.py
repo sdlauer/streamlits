@@ -43,10 +43,10 @@ varName = ['acceleration','weight','cylinders','displacement','horsepower'] # MP
 # Set recurrent variables
 yname = 'MPG'
 df = loadData()
-# maxs = df.max()
-# mins = df.min()
-# miny = mins[0]
-# maxy = maxs[0]
+maxs = df.max()
+mins = df.min()
+miny = mins[0]
+maxy = maxs[0]
 miny = 9
 maxy = 47
 
@@ -123,7 +123,7 @@ def polynomReg(X, y, deg):
         polyModel.fit(xpoly,y)
         return polyModel
 # Convert a number to a string and set just one sign -- "+ -" goes to "-"
-def checkSign(val, txt):
+def checkSign(val, txt): # txt = 'text' is for alt-txt
         if val < 0:
                 if txt == 'text':
                         sgn = ' - '
@@ -172,12 +172,12 @@ def getFormula(x1name, x2name, yname, deg, choice):
                 a4 = polyModel.coef_[0][4]
         # Write the polynom regression as an equation
                 if choice == 'text':
-                        formula_text = 'widehat ' +  yname  + ' = '+ str(a_int) + checkSign(a0) + '(' + x1name + ') ' +  checkSign(a1) + '(' + x2name + ')'
+                        formula_text = 'widehat ' +  yname  + ' = '+ checkSign(a_int) + checkSign(a0) + '(' + x1name + ') ' +  checkSign(a1) + '(' + x2name + ')'
                         formula_text += checkSign(a2, choice) + '(' + x1name + ')^2' + checkSign(a3) +'(' + x1name + ')(' + x2name + ')'
                         formula_text += checkSign(a4, choice) + '(' + x2name + ')^2'
                 else:
                         formula_text = '\\begin{align*}'
-                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + str(a_int, choice)
+                        formula_text += '\\,\\widehat{\\text{' + yname + '}} = & ' + checkSign(a_int, choice)
                         formula_text += checkSign(a0, choice) + '(\\text{' + x1name + '})' +  checkSign(a1, choice) + '(\\text{' + x2name + '})\\\\'
                         formula_text += ' & ' + checkSign(a2, choice) + '(\\text{' + x1name + '})^2\\\\' 
                         formula_text += ' & ' + checkSign(a3, choice) +'(\\text{' + x1name + '})(\\text{' + x2name + '})\\\\'
