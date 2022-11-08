@@ -69,7 +69,7 @@ def getAltText(x1name, x2name, yname, degree):
         'ranging from {miny} to {maxy}. \n\n'
         'The first 2D scatterplot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
         'The second 2D scatterplot has horizontal x axis {x2name}, ranging from {minx2} to {max2}. {shape2}. \n' 
-        '\nThe degree {deg} three-dimensional interactive scatterplot has points \n(x,y,z) = ({x1name}, {x2name}, MPG) '
+        '\nThe degree {deg}, three-dimensional, interactive scatterplot has points \n(x,y,z) = ({x1name}, {x2name}, MPG) '
         'plotted above, on, and below the regression model {mesh}.\n\n'
         'Description:  The MPG prediction equation is \n {form}. '
         '\nThe medians of each independent variable are used to calculate a predicted value. \n {ypred} ').format(ypred= yprediction, form=formula,
