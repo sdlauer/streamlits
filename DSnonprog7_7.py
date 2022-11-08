@@ -16,8 +16,8 @@ hide = '''
         div.block-container {padding-bottom:1rem;}
         thead tr th:first-child {display:none}
         tbody th {display:none}
-        # [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{gap: 1rem;}
-        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 1rem;}
+        [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{gap: 0rem;}
+        [data-testid=column]:nth-of-type(2) [data-testid=stVerticalBlock]{gap: 0rem;}
         }
         #root > div:nth-child(1) > div > div > div > div > section >
         div {padding-top: 1rem;}
@@ -153,7 +153,7 @@ def get2VarScatter(xLabel, yLabel): # str, str attributes
         xvar = colDict[xLabel]
         yvar = colDict[yLabel]
         fig = plt.figure()
-        fig.set_size_inches(3.5,7)
+        fig.set_size_inches(3.5,6.5)
         scatterPlot = sns.scatterplot(data=df, x=xvar, y=yvar, 
                         hue='churn', alpha=0.5)
         scatterPlot.set_xlabel(xLabel, fontsize=14)
