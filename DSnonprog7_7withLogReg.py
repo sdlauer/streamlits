@@ -117,6 +117,7 @@ def getPlot(vertLabel):
         return fig
 # Call this function to get all graphs needed for the final streamlit
 # Need imageFolder made in project folder
+'''
 def getLogisticGraph(horizLabel): # str attribute
         fig = plt.figure()
         fig.set_size_inches(3,2)
@@ -190,12 +191,12 @@ def getLogisticInfo(x1Label, x2Label): # str, str attributes
         # print(info)
         return info
 
-
+'''
 ###############
 
 tab1, tab2 = st.tabs(['Plots', 'Description'])
 with tab1:
-        col1, col2, col3 = st.columns([3,3,4])
+        col1, col2 = st.columns([3,3,4])
         with col1:
                 ######
                 # Select first customer feature
@@ -205,7 +206,7 @@ with tab1:
                 # Plot boxplot or histogram for second feature    
                 st.pyplot(getPlot(var1))#, ignore_streamlit_theme=True)
                 # st.pyplot(getLogisticGraph(var1)) # use to call and make images b/c logistic loads slowly
-                st.image('images7_7/logReg_'+var1+'.png') # use images made with previous line
+                # st.image('images7_7/logReg_'+var1+'.png') # use images made with previous line
         with col2:
                 # Select second customer feature 
                 var2 = st.selectbox(
@@ -213,10 +214,10 @@ with tab1:
                 )
                 st.pyplot(getPlot(var2))#, ignore_streamlit_theme=True)  
                 # st.pyplot(getLogisticGraph(var2)) # use to call and make images b/c logistic loads slowly
-                st.image('images7_7/logReg_'+var2+'.png') # use images made with previous line
-        with col3:
-                # st.components.v1.html(html_data,height=500)
-                st.pyplot(get2VarScatter(var1, var2))#, ignore_streamlit_theme=True)   
+                # st.image('images7_7/logReg_'+var2+'.png') # use images made with previous line
+        # with col3:
+        #         # st.components.v1.html(html_data,height=500)
+        #         st.pyplot(get2VarScatter(var1, var2))#, ignore_streamlit_theme=True)   
         descriptiona = 'Description for ('+ var1.lower() + ', ' + var2.lower() +'):'
         st.write(descriptiona)
         st.latex(getLogisticInfo(var1, var2))                
