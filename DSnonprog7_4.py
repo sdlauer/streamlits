@@ -40,7 +40,7 @@ def loadData():
 elem = 'car'
 varName = ['acceleration','weight','cylinders','displacement','horsepower'] # MPG was first entry of array
 
-# Set recurrent variables
+# Set recurrent features
 yname = 'MPG'
 df = loadData()
 maxs = df.max()
@@ -64,7 +64,7 @@ mesh = ['plane', 'quadratic surface']
 def getAltText(x1name, x2name, yname, degree):
         formula = getFormula(x1name, x2name, yname, degree, 'text')
         yprediction = predictor(x1name, x2name, yname, degree)
-        return ('The dependent variable is MPG, and the two independent variables are {x1name} and {x2name}.\n'
+        return ('The dependent variable is MPG, and the two input features are {x1name} and {x2name}.\n'
         'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
         'ranging from {miny} to {maxy}. \n\n'
         'The first 2D scatterplot has horizontal x axis {x1name}, ranging from {minx1} to {max1}. {shape1}. ' 
@@ -72,11 +72,11 @@ def getAltText(x1name, x2name, yname, degree):
         '\nThe degree {deg}, three-dimensional, interactive scatterplot has points \n(x,y,z) = ({x1name}, {x2name}, MPG) '
         'plotted above, on, and below the regression model {mesh}.\n\n'
         'Description:  The MPG prediction equation is \n {form}. '
-        '\nThe medians of each independent variable are used to calculate a predicted value. \n {ypred} ').format(ypred= yprediction, form=formula,
+        '\nThe medians of each input variable are used to calculate a predicted value. \n {ypred} ').format(ypred= yprediction, form=formula,
         count=numDataPts, miny=miny, maxy=maxy, x1name=x1name, x2name=x2name, minx1=textInfo[x1name][0], max1=textInfo[x1name][1], shape1=textInfo[x1name][2],
         minx2=textInfo[x2name][0], max2=textInfo[x2name][1], shape2=textInfo[x2name][2], deg=degree, mesh=mesh[degree-1]
         )
-        # return ('The scene contains a 2D scatterplot for each independent variable, '
+        # return ('The scene contains a 2D scatterplot for each input variable, '
         # 'an interactive 3D scatter plot with a surface mesh for the model, an MPG prediction equation, a summary sentence ' 
         # 'for a predicted value, and this description text.  \n'
         # 'All 3 plots have {count} data points and vertical y axis of the dependent variable MPG '
@@ -89,17 +89,17 @@ def getAltText(x1name, x2name, yname, degree):
         # )
 ##################################################################################################
 # Choose the columns
-def setVariables(x1, x2, yvar):
-#Store relevant columns as variables
+def setFeatures(x1, x2, yvar):
+#Store relevant columns as features
         X = df[[x1,x2]].values.reshape(-1, 2)
         y = df[[yvar]].values.reshape(-1, 1)
         return (X,y)
-# Store relevant columns as variables
-# X, y = setVariables(x1name, x2name, yname)
+# Store relevant columns as features
+# X, y = setFeatures(x1name, x2name, yname)
 # Graph xvar vs y
 def get2Dscatter(x1name, x2name, yname, indx): 
         xname = [x1name, x2name] 
-        X, y = setVariables(x1name, x2name, yname)
+        X, y = setFeatures(x1name, x2name, yname)
         fig = plt.figure()
         # locx, labelsx = plt.xticks()
         plt.scatter(X[:,indx],y, c='k')
@@ -146,7 +146,7 @@ def checkSign(val, txt): # txt = 'text' is for alt-txt
         return sgn + str(num)
 # Write the least squares model as an equation
 def getFormula(x1name, x2name, yname, deg, choice):
-        X, y = setVariables(x1name, x2name, yname)
+        X, y = setFeatures(x1name, x2name, yname)
         if deg == 1:
                 # Get coefficients degree 1
                 linModel = linReg(X, y)
@@ -186,7 +186,7 @@ def getFormula(x1name, x2name, yname, deg, choice):
         return formula_text
 # 3D graph
 def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
-        X,y = setVariables(x1name, x2name, yname)
+        X,y = setFeatures(x1name, x2name, yname)
 # Set dimensions of mesh and make surface polynomial mesh
         min1 = X[:,0].min()
         min2 = X[:,1].min()
@@ -245,8 +245,8 @@ def get3Dgraph(x1name, x2name, yname, deg ):# pm = polyModel
         )
         return fig
 def predictor(x1name, x2name, yname, deg):
-        # Use medians of independent variables to make a prediction statement
-        X,y = setVariables(x1name, x2name, yname)
+        # Use medians of input features to make a prediction statement
+        X,y = setFeatures(x1name, x2name, yname)
         # X = df[[x1name,x2name]].values.reshape(-1, 2)
         # y = df[[yname]].values.reshape(-1, 1)
         x1median = round(df[x1name].median(),3)
@@ -274,7 +274,7 @@ tab1, tab2 = st.tabs(['Scatterplots', 'Description'])
 with tab1:
         col1, col2 = st.columns([1,3])
         with col1:
-                ###### Use if model is generalized to using all variables for y
+                ###### Use if model is generalized to using all features for y
                 # yname = st.selectbox(
                 # 'Dependent feature', varName 
                 # )  
@@ -286,11 +286,11 @@ with tab1:
                 )
                 # Select first indendent variable      
                 x1name = st.selectbox(
-                        'First independent feature',  varName # add lambda filter including yname if generalized
+                        'First input feature',  varName # add lambda filter including yname if generalized
                 )
                 # Select second indendent variable     
                 x2name = st.selectbox(
-                        'Second independent feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
+                        'Second input feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
                 ) 
                 st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
                 # Graph 2C scatter plots
@@ -314,11 +314,11 @@ with tab2: # for alt-text users
                 )
                 # Select first indendent variable      
                 x1namea = st.selectbox(
-                        'First independent feature:',  varName # add lambda filter including yname if generalized
+                        'First input feature:',  varName # add lambda filter including yname if generalized
                 )
                 # Select second indendent variable     
                 x2namea = st.selectbox(
-                        'Second independent feature:', filter(lambda w:  w != x1namea, varName)# include yname if generalized 
+                        'Second input feature:', filter(lambda w:  w != x1namea, varName)# include yname if generalized 
                 ) 
         with col2a:
                 # altText = {['MPG','acceleration','weight','cylinders','displacement','horsepower']}
