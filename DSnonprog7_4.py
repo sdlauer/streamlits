@@ -28,7 +28,7 @@ hide = '''
 st.markdown(hide, unsafe_allow_html=True)
 
 # Store the data set so it doesn't have to reload -- needs a function to work
-@st.cache
+@st.cache_resource
 ##################################################################################################
 # Get the dataset -- this section is specific to the dataset loaded.  
 # All other code is dependent on this dataframe definition
@@ -292,13 +292,13 @@ with tab1:
                 x2name = st.selectbox(
                         'Second input feature', filter(lambda w:  w != x1name, varName)# include yname if generalized 
                 ) 
-                st.pyplot(get2Dscatter(x1name, x2name, yname, 0), ignore_streamlit_theme=True) 
+                st.pyplot(get2Dscatter(x1name, x2name, yname, 0))#, ignore_streamlit_theme=True) 
                 # Graph 2C scatter plots
-                st.pyplot(get2Dscatter(x1name, x2name, yname, 1), ignore_streamlit_theme=True)
+                st.pyplot(get2Dscatter(x1name, x2name, yname, 1))#, ignore_streamlit_theme=True)
                 
         with col2:
                 # Display 3D graph
-                st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config, ignore_streamlit_theme=True)
+                st.plotly_chart(get3Dgraph(x1name,x2name,yname, degree), config=config)#, ignore_streamlit_theme=True)
                 # Display regression formula
                 st.write('Description')
                 st.latex(getFormula(x1name, x2name, yname, degree, 'LaTeX'))
