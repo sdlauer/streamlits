@@ -96,9 +96,6 @@ with col2:
                 probcalc = poisson.cdf(k=int(value2), mu=int(aveEvents))-poisson.cdf(k=int(value1)-1, mu=int(aveEvents))
                 text="P(%d &leq; k &leq; %d) = %0.3f" %(value1, value2, probcalc)
             else:
-                # ax.bar(x, height=poisson.pmf(k=x, mu=int(aveEvents)), width=0.75, color='tab:blue')
-                # ax.set(xlabel='k', ylabel='Probability')
-                # plt.ylim(bottom=0)  
                 text="value1 must be less than value2"               
     elif calculate == "P(k = value)":
             x2 = int(value1)
@@ -118,4 +115,3 @@ if check2:
     df = pd.DataFrame(poisson.pmf(k=x, mu=int(aveEvents)), columns=("P(k%s)" % i for i in ['']))
     df_T = df.transpose(copy=False)
     st.dataframe(df_T.style.format("{:.3f}"), column_config={"_index": "k"}, height=78)
-    # st.write(st.__version__)
